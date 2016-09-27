@@ -5,4 +5,8 @@ package com.jhhy.netdemo.biz;
  */
 public class TestStudent {
     public  String  name;
+    public  String address;
+    public  int age;
+    
+    
 }

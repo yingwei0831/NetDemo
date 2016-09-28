@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.jhhy.netdemo.biz.OrderActionBiz;
+import com.jhhy.netdemo.biz.TestStudent;
 import com.jhhy.netdemo.models.Order;
 import com.jhhy.netdemo.utils.Consts;
 import com.jhhy.netdemo.utils.LogUtil;
@@ -29,10 +30,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         OrderActionBiz biz = new OrderActionBiz(getApplicationContext(), handler);
         biz.getOrderDetail("01585988836818");
+
+
+        TestStudent student = new TestStudent("haha","beijingshi changyangqu",30);
+        LogUtil.e("Test", "student = "+student.toJsonString());
+
     }
 }

@@ -1,17 +1,21 @@
-package com.jhhy.netdemo.biz;
+package com.jhhy.netdemo.models;
 
 import com.google.gson.Gson;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by birney1 on 16/9/28.
  */
-public class TestStudent {
+public class TestStudent extends BasicModel {
     public  String  name;
     public  String address;
     public  int age;
     
     public TestStudent(){
-
+        super();
     }
 
     public String getName() {
@@ -46,8 +50,5 @@ public class TestStudent {
     }
 
 
-    public String toJsonString(){
-        Gson gson = new Gson();
-        return gson.toJson(this);
-    }
+
 }

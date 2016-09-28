@@ -8,5 +8,16 @@ public class TestStudent {
     public  String address;
     public  int age;
     
+    public TestStudent(){
+
+    }
+
+    public  TestStudent(String name, String address, int age){
+        this.name = name;
+        this.address = address;
+        this.age = age;
+    }
     
+
+
 }

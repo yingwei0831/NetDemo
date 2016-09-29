@@ -9,13 +9,13 @@ import java.util.Map;
 /**
  * Created by birney1 on 16/9/28.
  */
-public class TestStudent extends BasicModel {
+public class TestStudent extends BasicFetchModel {
     public  String  name;
     public  String address;
     public  int age;
-    
+
     public TestStudent(){
-        super();
+
     }
 
     public String getName() {
@@ -31,6 +31,7 @@ public class TestStudent extends BasicModel {
     }
 
     public  TestStudent(String name, String address, int age){
+        super();
         this.name = name;
         this.address = address;
         this.age = age;

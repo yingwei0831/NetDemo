@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.JsonReader;
 
 import com.google.gson.Gson;
+import com.jhhy.netdemo.biz.CarRentActionBiz;
 import com.jhhy.netdemo.biz.OrderActionBiz;
 import com.jhhy.netdemo.models.TestStudent;
 import com.jhhy.netdemo.models.Order;
@@ -14,6 +15,7 @@ import com.jhhy.netdemo.utils.Consts;
 import com.jhhy.netdemo.utils.LogUtil;
 
 import java.io.StringReader;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,25 +40,39 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        OrderActionBiz biz = new OrderActionBiz(getApplicationContext(), handler);
-        biz.getOrderDetail("01585988836818");
+//        OrderActionBiz biz = new OrderActionBiz(getApplicationContext(), handler);
+//        biz.getOrderDetail("01585988836818");
 
         TestStudent student = new TestStudent("haha","beijingshi changyangqu",30);
 
         LogUtil.e("Test", "student = "+student.toJsonString());
 
         String objectStr="{\"name\":\"JSON\",\"age\":\"24\",\"address\":\"北京市西城区\"}";
-
+//
         String arrayStr="[{\"name\":\"JSON\",\"age\":\"24\",\"address\":\"北京市西城区\"}]";
         //JSONObject jsonObject = new JSONObject(objectStr); /
+//
+//
+//        JsonReader reader = new JsonReader(new StringReader(objectStr));
+//
+//         // TestSudent student2 = new Gson().fromJson(objectStr,TestSudent.class);
+//
+//        TestStudent tt = new Gson().fromJson(objectStr,TestStudent.class);
+//
+//
+//        try {
+//            Map<String,Object> map = tt.toMapObject();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        student.setBizCode("xxxxxxx");
+//        LogUtil.e("Test","studentBizJson = " + student.toBizJsonString());
 
 
-        JsonReader reader = new JsonReader(new StringReader(objectStr));
+        CarRentActionBiz carBiz = new CarRentActionBiz(getApplicationContext(),handler);
+        carBiz.fetchCarRentalServiceDetail();
 
-         // TestSudent student2 = new Gson().fromJson(objectStr,TestSudent.class);
 
-        TestStudent tt = new Gson().fromJson(objectStr,TestStudent.class);
-
-        String ttt = "[]";
     }
 }

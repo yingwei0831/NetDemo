@@ -1,5 +1,6 @@
 package com.jhhy.netdemo.http;
 
+import com.jhhy.netdemo.models.BasicFetchModel;
 import com.jhhy.netdemo.utils.Consts;
 import com.jhhy.netdemo.utils.LogUtil;
 
@@ -35,6 +36,16 @@ public class HttpUtils {
         LogUtil.e(TAG, "发送数据：" + param.getBodyContent());
         x.http().post(param, callback);
     }
+
+
+    public static void executeXutils(BasicFetchModel arg, ResponseResult callback){
+        org.xutils.http.RequestParams param = new org.xutils.http.RequestParams(Consts.SERVER_URL);
+        param.addHeader("Content-Type", "application/json;charset=utf-8");
+        param.setBodyContent(arg.toBizJsonString());
+        LogUtil.e(TAG, "发送数据：" + param.getBodyContent());
+        x.http().post(param, callback);
+    }
+
 
     private static JSONObject setFieldParams(Map<String, Object> map) {
         JSONObject fieldObj = new JSONObject();

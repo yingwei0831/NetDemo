@@ -11,6 +11,10 @@ import java.util.Map;
 /**
  * Created by zhangguang on 16/9/29.
  */
+
+/**
+ *  租车
+ */
 public class CarRentFetchModel extends BasicFetchModel {
 
     public JSONObject toBizJsonObject(){

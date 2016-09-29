@@ -15,7 +15,7 @@ import java.util.Map;
  */
  public abstract class BasicFetchModel  {
 
-    protected String code;
+    public String code;
 
 
     public BasicFetchModel(){

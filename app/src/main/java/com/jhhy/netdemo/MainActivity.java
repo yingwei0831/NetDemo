@@ -9,6 +9,7 @@ import android.util.JsonReader;
 import com.google.gson.Gson;
 import com.jhhy.netdemo.biz.CarRentActionBiz;
 import com.jhhy.netdemo.biz.OrderActionBiz;
+import com.jhhy.netdemo.models.CarRentNextModel;
 import com.jhhy.netdemo.models.TestStudent;
 import com.jhhy.netdemo.models.Order;
 import com.jhhy.netdemo.utils.Consts;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
                 case Consts.MESSAGE_ORDER_DETAIL:
                     if (msg.arg1 == 1){
                         Order order = (Order) msg.obj;
-                        LogUtil.e("info", "info = "+order.toString());
+//                        LogUtil.e("info", "info = "+order.toString());
                     }
                     break;
             }
@@ -71,8 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         CarRentActionBiz carBiz = new CarRentActionBiz(getApplicationContext(),handler);
-        carBiz.fetchCarRentalServiceDetail();
+//        carBiz.fetchCarRentalServiceDetail();
 
-
+        CarRentNextModel model = new CarRentNextModel("5","2","北京市昌平区史各庄","辽宁省凌源市火车站");
+        carBiz.carRentNextApi(model);
     }
 }

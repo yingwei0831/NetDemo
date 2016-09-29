@@ -6,6 +6,7 @@ import com.jhhy.netdemo.utils.LogUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xutils.common.Callback;
 import org.xutils.x;
 
 import java.util.Map;
@@ -38,7 +39,7 @@ public class HttpUtils {
     }
 
 
-    public static void executeXutils(BasicFetchModel arg, ResponseResult callback){
+    public static void executeXutils(BasicFetchModel arg, Callback.CommonCallback<String> callback){
         org.xutils.http.RequestParams param = new org.xutils.http.RequestParams(Consts.SERVER_URL);
         param.addHeader("Content-Type", "application/json;charset=utf-8");
         param.setBodyContent(arg.toBizJsonString());

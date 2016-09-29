@@ -20,6 +20,7 @@ public abstract class ResponseResult implements Callback.CommonCallback<String>,
     @Override
     public void onError(Throwable ex, boolean isOnCallback) {
         LogUtil.e(TAG, "onError: " + ex + ", " + isOnCallback);
+
     }
 
     @Override

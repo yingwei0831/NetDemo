@@ -13,8 +13,8 @@ import java.util.Map;
  */
 public class BasicActionBiz {
 
-    private Context context;
-    private Handler handler;
+    protected Context context;
+    protected Handler handler;
 
     public BasicActionBiz(Context context, Handler handler) {
         this.context = context;

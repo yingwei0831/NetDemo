@@ -98,7 +98,7 @@ public class CarRentActionBiz extends  BasicActionBiz{
      */
     public void carRentNextApi(CarRentNextModel model){
         model.code = "Car_nexts";
-        HttpUtils.executeXutils(model,detailCallback);
+        //HttpUtils.executeXutils(model,detailCallback);
     }
 
 

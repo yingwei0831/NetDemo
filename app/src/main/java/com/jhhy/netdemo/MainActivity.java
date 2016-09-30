@@ -9,13 +9,16 @@ import android.util.JsonReader;
 import com.google.gson.Gson;
 import com.jhhy.netdemo.biz.CarRentActionBiz;
 import com.jhhy.netdemo.biz.OrderActionBiz;
+import com.jhhy.netdemo.models.BasicResponseModel;
 import com.jhhy.netdemo.models.CarRentNextModel;
+import com.jhhy.netdemo.models.FetchError;
 import com.jhhy.netdemo.models.TestStudent;
 import com.jhhy.netdemo.models.Order;
 import com.jhhy.netdemo.utils.Consts;
 import com.jhhy.netdemo.utils.LogUtil;
 
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -72,9 +75,19 @@ public class MainActivity extends AppCompatActivity {
 
 
         CarRentActionBiz carBiz = new CarRentActionBiz(getApplicationContext(),handler);
-//        carBiz.fetchCarRentalServiceDetail();
+        carBiz.fetchCarRentalServiceDetail(new CarRentActionBiz.BizCallBack() {
+            @Override
+            public void onCompletion(BasicResponseModel model) {
+
+            }
+
+            @Override
+            public void onError(FetchError error) {
+
+            }
+        });
 
         CarRentNextModel model = new CarRentNextModel("5","2","北京市昌平区史各庄","辽宁省凌源市火车站");
-        carBiz.carRentNextApi(model);
+       // carBiz.carRentNextApi(model);
     }
 }

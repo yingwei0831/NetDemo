@@ -72,8 +72,6 @@ public class FetchResponseModel {
 
     public String body;
 
-    private JSON_TYPE bodyJsonType;
-
     @Override
     public String toString() {
         return "FetchResponseModel{" +

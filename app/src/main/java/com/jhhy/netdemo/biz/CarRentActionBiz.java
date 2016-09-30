@@ -5,11 +5,16 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import com.jhhy.netdemo.http.FetchCallBack;
 import com.jhhy.netdemo.http.FetchResponse;
 import com.jhhy.netdemo.http.HttpUtils;
 import com.jhhy.netdemo.http.ResponseResult;
+import com.jhhy.netdemo.models.BasicResponseModel;
+import com.jhhy.netdemo.models.CarRentDetail;
 import com.jhhy.netdemo.models.CarRentFetchModel;
 import com.jhhy.netdemo.models.CarRentNextModel;
 import com.jhhy.netdemo.models.FetchError;
@@ -27,6 +32,7 @@ import org.xutils.common.Callback;
 import org.xutils.ex.HttpException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -39,26 +45,47 @@ public class CarRentActionBiz extends  BasicActionBiz{
     }
 
 
-
-    public interface  mmmmmm extends FetchResponse {
-
+    public interface  BizCallBack{
+        void onError(FetchError error);
+        void onCompletion(BasicResponseModel model);
     }
+
+    public  BizCallBack bizCallBack;
     /**
      *  租车
      */
-    public void fetchCarRentalServiceDetail(){
+    public void fetchCarRentalServiceDetail(BizCallBack callBack){
+        this.bizCallBack = callBack;
         CarRentFetchModel fetchRequest = new CarRentFetchModel();
         fetchRequest.setBizCode("Car_index");
         LogUtil.e("CarRentActionBiz",fetchRequest.toBizJsonString());
-        FetchResponse fetchResponse = new FetchResponse() {
+        final FetchResponse fetchResponse = new FetchResponse() {
             @Override
             public void onCompletion(FetchResponseModel response) {
-                
+                BasicResponseModel returnModel = new BasicResponseModel();
+                returnModel.headModel = response.head;
+                JsonParser parser = new JsonParser();
+                JsonElement element = parser.parse(response.body);
+                if (element.isJsonObject()) {
+
+                } else if (element.isJsonArray()) {
+                    ArrayList<CarRentDetail> array = new ArrayList<CarRentDetail>();
+                    JsonArray jsonArray = element.getAsJsonArray();
+                    Iterator it = jsonArray.iterator();
+                    while (it.hasNext()) {
+                        JsonElement e = (JsonElement) it.next();
+                        CarRentDetail detail = new Gson().fromJson(e, CarRentDetail.class);
+                        array.add(detail);
+                    }
+                    returnModel.body = array;
+                    BizCallBack callBack = (BizCallBack) bizCallBack;
+                    callBack.onCompletion(returnModel);
+                }
             }
 
             @Override
             public void onError(FetchError error) {
-
+                bizCallBack.onError(error);
             }
         };
         HttpUtils.executeXutils(fetchRequest, new FetchCallBack(fetchResponse));
@@ -74,45 +101,5 @@ public class CarRentActionBiz extends  BasicActionBiz{
         HttpUtils.executeXutils(model,detailCallback);
     }
 
-    private Callback.CommonCallback<String> detailCallback = new Callback.CommonCallback<String>() {
-
-        @Override
-        public void onSuccess(String result) {
-            try {
-                JSONObject resultObj = new JSONObject(result);
-                String bodyStr = resultObj.getString("body");
-                String headStr = resultObj.getString("head");
-                FetchResponseModel model =  new FetchResponseModel(); //new Gson().fromJson(result,FetchResponseModel.class);
-                model.body = bodyStr;
-                model.head = new Gson().fromJson(headStr,FetchResponseModel.HeadModel.class);
-
-                //handler.sendMessage(new Message());
-                LogUtil.e("xxxxx","onSuccess =" + result + ", type = " + model.body.getClass() + "toString = " + model.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-        }
-
-        @Override
-        public void onError(Throwable ex, boolean isOnCallback) {
-            handler.sendEmptyMessage(-1);
-            HttpException httpEx = (HttpException) ex;
-            String responseMsg = httpEx.getMessage();
-            String errorResult = httpEx.getResult();
-            LogUtil.e("xxxxx","onError = " + responseMsg + " ---> " + errorResult);
-        }
-
-        @Override
-        public void onCancelled(CancelledException cex) {
-
-        }
-
-        @Override
-        public void onFinished() {
-            handler.sendEmptyMessage(0);
-        }
-    };
 
 }

@@ -6,10 +6,13 @@ import android.os.Message;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import com.jhhy.netdemo.http.FetchCallBack;
+import com.jhhy.netdemo.http.FetchResponse;
 import com.jhhy.netdemo.http.HttpUtils;
 import com.jhhy.netdemo.http.ResponseResult;
 import com.jhhy.netdemo.models.CarRentFetchModel;
 import com.jhhy.netdemo.models.CarRentNextModel;
+import com.jhhy.netdemo.models.FetchError;
 import com.jhhy.netdemo.models.FetchResponseModel;
 import com.jhhy.netdemo.models.Invoice;
 import com.jhhy.netdemo.models.Order;
@@ -36,6 +39,10 @@ public class CarRentActionBiz extends  BasicActionBiz{
     }
 
 
+
+    public interface  mmmmmm extends FetchResponse {
+
+    }
     /**
      *  租车
      */
@@ -43,7 +50,18 @@ public class CarRentActionBiz extends  BasicActionBiz{
         CarRentFetchModel fetchRequest = new CarRentFetchModel();
         fetchRequest.setBizCode("Car_index");
         LogUtil.e("CarRentActionBiz",fetchRequest.toBizJsonString());
-        HttpUtils.executeXutils(fetchRequest,detailCallback);
+        FetchResponse fetchResponse = new FetchResponse() {
+            @Override
+            public void onCompletion(FetchResponseModel response) {
+                
+            }
+
+            @Override
+            public void onError(FetchError error) {
+
+            }
+        };
+        HttpUtils.executeXutils(fetchRequest, new FetchCallBack(fetchResponse));
     }
 
 
@@ -68,7 +86,7 @@ public class CarRentActionBiz extends  BasicActionBiz{
                 model.body = bodyStr;
                 model.head = new Gson().fromJson(headStr,FetchResponseModel.HeadModel.class);
 
-                handler.sendMessage(new Message());
+                //handler.sendMessage(new Message());
                 LogUtil.e("xxxxx","onSuccess =" + result + ", type = " + model.body.getClass() + "toString = " + model.toString());
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -1,12 +1,11 @@
-package com.jhhy.netdemo.models;
+package com.jhhy.netdemo.models.FetchModel;
 
+import com.jhhy.netdemo.models.FetchModel.BasicFetchModel;
 import com.jhhy.netdemo.utils.Consts;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Map;
 
 /**
  * Created by zhangguang on 16/9/29.

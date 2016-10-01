@@ -1,4 +1,4 @@
-package com.jhhy.netdemo.models;
+package com.jhhy.netdemo.models.ResponseModel;
 
 /**
  * Created by zhangguang on 16/9/30.
@@ -10,6 +10,12 @@ public class CarRentDetail {
     public String seatnum;
 
     public CarRentDetail() {
+    }
+
+    public CarRentDetail(String id, String title, String seatnum) {
+        this.id = id;
+        this.title = title;
+        this.seatnum = seatnum;
     }
 
     public String getId() {

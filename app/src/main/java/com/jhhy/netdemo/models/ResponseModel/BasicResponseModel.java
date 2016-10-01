@@ -1,4 +1,4 @@
-package com.jhhy.netdemo.models;
+package com.jhhy.netdemo.models.ResponseModel;
 
 /**
  * Created by zhangguang on 16/9/30.

@@ -1,13 +1,15 @@
-package com.jhhy.netdemo.models;
+package com.jhhy.netdemo.models.FetchModel;
 
 /**
  * Created by birney1 on 16/9/29.
  */
 
+import com.jhhy.netdemo.models.FetchModel.BasicFetchModel;
+
 /**
  *   租车下一步
  */
-public class CarRentNextModel extends  BasicFetchModel {
+public class CarRentNextModel extends BasicFetchModel {
     //:{"carid":"5","days":"2","startaddress":"北京市昌平区史各庄","endaddress":"辽宁省凌源市火车站"}}
     public String carid;
     public String days;

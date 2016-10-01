@@ -9,8 +9,10 @@ import java.io.File;
  */
 public class Consts {
 
-    public static final String SERVER_URL = "http://cwly.taskbees.cn:8083/service.php";
-
+//   public static final String SERVER_URL = "http://cwly.taskbees.cn:8083/service.php";
+//    public static final String SERVER_URL = "http://www.cwly1118.com";
+//    public  static final  String SERVER_URL = "http://www.cwly1118.com/service.php/test";
+    public static final String SERVER_URL = "http://www.cwly1118.com/service.php";
     public static final String IMG_PATH = Environment.getExternalStorageDirectory()+ File.separator+"cuiweiTourism/";
 
     public static final String IMG_TEMP_PATH = Environment.getExternalStorageDirectory()+ File.separator+"cuiweiTemp/"; //上传图片用，传完删除

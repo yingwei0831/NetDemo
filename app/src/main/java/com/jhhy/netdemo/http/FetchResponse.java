@@ -1,14 +1,20 @@
 package com.jhhy.netdemo.http;
 
-import com.jhhy.netdemo.models.FetchError;
-import com.jhhy.netdemo.models.FetchResponseModel;
+import com.jhhy.netdemo.models.ResponseModel.FetchError;
+import com.jhhy.netdemo.models.ResponseModel.FetchResponseModel;
 
 /**
  * Created by zhangguang on 16/9/30.
  */
-public interface FetchResponse {
+public abstract class FetchResponse {
 
-    public void onCompletion(FetchResponseModel response);
+    public BizCallback bizCallback = null;
 
-    public void onError(FetchError error);
+    public  FetchResponse(BizCallback callback){
+        this.bizCallback = callback;
+    }
+
+    public abstract void onCompletion(FetchResponseModel response);
+
+    public abstract void onError(FetchError error);
 }

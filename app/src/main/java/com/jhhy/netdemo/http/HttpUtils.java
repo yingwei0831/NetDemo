@@ -1,6 +1,6 @@
 package com.jhhy.netdemo.http;
 
-import com.jhhy.netdemo.models.BasicFetchModel;
+import com.jhhy.netdemo.models.FetchModel.BasicFetchModel;
 import com.jhhy.netdemo.utils.Consts;
 import com.jhhy.netdemo.utils.LogUtil;
 

@@ -1,4 +1,4 @@
-package com.jhhy.netdemo.models;
+package com.jhhy.netdemo.models.ResponseModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

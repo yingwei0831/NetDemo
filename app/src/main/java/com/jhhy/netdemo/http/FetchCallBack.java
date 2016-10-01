@@ -1,8 +1,8 @@
 package com.jhhy.netdemo.http;
 
 import com.google.gson.Gson;
-import com.jhhy.netdemo.models.FetchError;
-import com.jhhy.netdemo.models.FetchResponseModel;
+import com.jhhy.netdemo.models.ResponseModel.FetchError;
+import com.jhhy.netdemo.models.ResponseModel.FetchResponseModel;
 import com.jhhy.netdemo.utils.LogUtil;
 
 import org.json.JSONException;
@@ -17,13 +17,15 @@ public class FetchCallBack implements Callback.CommonCallback<String> {
 
     protected FetchResponse response;
 
+    private static final String TAG = "FetchCallBack";
+
     public FetchCallBack(FetchResponse response){
         this.response = response;
     }
 
     @Override
     public void onSuccess(String result) {
-
+        LogUtil.e(TAG," " + result);
         try {
             JSONObject resultObj = new JSONObject(result);
             String bodyStr = resultObj.getString("body");
@@ -33,7 +35,6 @@ public class FetchCallBack implements Callback.CommonCallback<String> {
             model.head = new Gson().fromJson(headStr,FetchResponseModel.HeadModel.class);
             this.response.onCompletion(model);
             //handler.sendMessage(new Message());
-            LogUtil.e("xxxxx","onSuccess =" + result + ", type = " + model.body.getClass() + "toString = " + model.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -49,7 +50,7 @@ public class FetchCallBack implements Callback.CommonCallback<String> {
         error.msg = responseMsg;
         error.info = errorResult;
         this.response.onError(error);
-
+        LogUtil.e(TAG," " + error.msg + error.info);
     }
 
     @Override

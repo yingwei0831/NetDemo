@@ -34,7 +34,7 @@ public class HttpUtils {
         }
         String entityString = json.toString();
         param.setBodyContent(entityString);
-        LogUtil.e(TAG, "发送数据：" + param.getBodyContent());
+        LogUtil.e(TAG, "send Data：" + param.getBodyContent());
         x.http().post(param, callback);
     }
 
@@ -43,6 +43,7 @@ public class HttpUtils {
         org.xutils.http.RequestParams param = new org.xutils.http.RequestParams(Consts.SERVER_URL);
         param.addHeader("Content-Type", "application/json;charset=utf-8");
         param.setBodyContent(arg.toBizJsonString());
+        LogUtil.e(TAG, "发送数据：" + arg.toBizJsonString());
         x.http().post(param, callback);
     }
 

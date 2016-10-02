@@ -11,17 +11,21 @@ import com.jhhy.netdemo.http.BizCallback;
 import com.jhhy.netdemo.http.FetchCallBack;
 import com.jhhy.netdemo.http.FetchResponse;
 import com.jhhy.netdemo.http.HttpUtils;
+import com.jhhy.netdemo.models.FetchModel.CarRentCity;
+import com.jhhy.netdemo.models.FetchModel.CarRentOrder;
 import com.jhhy.netdemo.models.ResponseModel.BasicResponseModel;
 import com.jhhy.netdemo.models.ResponseModel.CarNextResponse;
 import com.jhhy.netdemo.models.ResponseModel.CarRentDetail;
 import com.jhhy.netdemo.models.FetchModel.CarRentFetchModel;
 import com.jhhy.netdemo.models.FetchModel.CarRentNextModel;
+import com.jhhy.netdemo.models.ResponseModel.CarRentOrderResponse;
 import com.jhhy.netdemo.models.ResponseModel.FetchError;
 import com.jhhy.netdemo.models.ResponseModel.FetchResponseModel;
 import com.jhhy.netdemo.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 
 /**
@@ -72,7 +76,7 @@ public class CarRentActionBiz extends  BasicActionBiz{
 
             @Override
             public void onError(FetchError error) {
-                bizCallBack.onError(error);
+                this.bizCallback.onError(error);
             }
         };
         HttpUtils.executeXutils(fetchRequest, new FetchCallBack(fetchResponse));
@@ -102,10 +106,81 @@ public class CarRentActionBiz extends  BasicActionBiz{
             }
             @Override
             public void onError(FetchError error) {
-                bizCallBack.onError(error);
+                this.bizCallback.onError(error);
             }
         };
+
         HttpUtils.executeXutils(model,new FetchCallBack(fetchResponse));
     }
+
+    /**
+     *  租车提交订单
+     *  @param model   参数，参照文档
+     */
+    public void CarRentSubmitOrder(CarRentOrder model, BizCallback callBack){
+        model.code = "Order_carorder";
+        FetchResponse fetchResponse = new FetchResponse(callBack){
+
+            @Override
+            public void onCompletion(FetchResponseModel response) {
+                BasicResponseModel returnModel = new BasicResponseModel();
+                JsonElement element = parseJsonBody(response);
+                if (element.isJsonObject()){
+                    CarRentOrderResponse orderResponse = new Gson().fromJson(element,CarRentOrderResponse.class);
+                    returnModel.headModel = response.head;
+                    returnModel.body = orderResponse;
+                    this.bizCallback.onCompletion(returnModel);
+                }
+                else{
+                    // exception
+                }
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                this.bizCallback.onError(error);
+            }
+        };
+
+        HttpUtils.executeXutils(model,new FetchCallBack(fetchResponse));
+    }
+
+
+    /**
+     *  获取租车城市
+     *  @param model   参数，参照文档
+     */
+     public void  CarRentGetCitys(CarRentCity model,BizCallback callBack){
+        model.code = "Car_zccity";
+
+         FetchResponse fetchResponse = new FetchResponse(callBack){
+
+             @Override
+             public void onCompletion(FetchResponseModel response) {
+                 BasicResponseModel returnModel = new BasicResponseModel();
+                 JsonElement element = parseJsonBody(response);
+                 if (element.isJsonArray()){
+                     ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
+                     List<List<String>> result =  new Gson().fromJson(element,array.getClass());
+                     returnModel.body = result;
+                     returnModel.headModel = response.head;
+                     this.bizCallback.onCompletion(returnModel);
+                 }
+                 else{
+
+                 }
+             }
+
+             @Override
+             public void onError(FetchError error) {
+                 this.bizCallback.onError(error);
+             }
+         };
+
+         HttpUtils.executeXutils(model,new FetchCallBack(fetchResponse));
+     }
+
+
+
 
 }

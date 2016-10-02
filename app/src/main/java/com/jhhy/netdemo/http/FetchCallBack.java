@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.ex.HttpException;
 
+import java.net.UnknownHostException;
+
 /**
  * Created by zhangguang on 16/9/30.
  */
@@ -42,15 +44,28 @@ public class FetchCallBack implements Callback.CommonCallback<String> {
 
     @Override
     public void onError(Throwable ex, boolean isOnCallback) {
-        HttpException httpEx = (HttpException) ex;
-        String responseMsg = httpEx.getMessage();
-        String errorResult = httpEx.getResult();
+        String responseMsg =  ex.getMessage();
+        String errorResult = ex.getLocalizedMessage();
         FetchError error = new FetchError();
         error.errroCode = -1;
         error.msg = responseMsg;
         error.info = errorResult;
         this.response.onError(error);
-        LogUtil.e(TAG," " + error.msg + error.info);
+        LogUtil.e(TAG, " " + error.msg + error.info);
+//        if (ex instanceof HttpException) {
+//            HttpException httpEx = (HttpException) ex;
+//            String responseMsg = httpEx.getMessage();
+//            String errorResult = httpEx.getResult();
+//            FetchError error = new FetchError();
+//            error.errroCode = -1;
+//            error.msg = responseMsg;
+//            error.info = errorResult;
+//            this.response.onError(error);
+//            LogUtil.e(TAG, " " + error.msg + error.info);
+//        }else if (ex instanceof UnknownHostException){
+//
+//        }
+//        LogUtil.e(TAG, " " + ex.toString());
     }
 
     @Override

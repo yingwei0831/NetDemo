@@ -9,4 +9,12 @@ public class FetchError {
     public  String msg;
     public  String info;
 
+    @Override
+    public String toString() {
+        return "FetchError{" +
+                "errroCode=" + errroCode +
+                ", msg='" + msg + '\'' +
+                ", info='" + info + '\'' +
+                '}';
+    }
 }

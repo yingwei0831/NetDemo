@@ -1,10 +1,6 @@
 package com.jhhy.netdemo.models;
 
-import com.google.gson.Gson;
-
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
+import com.jhhy.netdemo.models.FetchModel.BasicFetchModel;
 
 /**
  * Created by birney1 on 16/9/28.

@@ -1,4 +1,4 @@
-package com.jhhy.netdemo.models;
+package com.jhhy.netdemo.models.ResponseModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -71,8 +71,6 @@ public class FetchResponseModel {
     public HeadModel head;
 
     public String body;
-
-    private JSON_TYPE bodyJsonType;
 
     @Override
     public String toString() {

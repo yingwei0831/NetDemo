@@ -2,28 +2,29 @@ package com.jhhy.netdemo.biz;
 
 import android.content.Context;
 import android.os.Handler;
-import android.os.Message;
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.jhhy.netdemo.http.BizCallback;
+import com.jhhy.netdemo.http.FetchCallBack;
+import com.jhhy.netdemo.http.FetchResponse;
 import com.jhhy.netdemo.http.HttpUtils;
-import com.jhhy.netdemo.http.ResponseResult;
-import com.jhhy.netdemo.models.CarRentFetchModel;
-import com.jhhy.netdemo.models.CarRentNextModel;
-import com.jhhy.netdemo.models.FetchResponseModel;
-import com.jhhy.netdemo.models.Invoice;
-import com.jhhy.netdemo.models.Order;
-import com.jhhy.netdemo.models.UserContacts;
-import com.jhhy.netdemo.utils.Consts;
+import com.jhhy.netdemo.models.FetchModel.CarRentCity;
+import com.jhhy.netdemo.models.FetchModel.CarRentOrder;
+import com.jhhy.netdemo.models.ResponseModel.BasicResponseModel;
+import com.jhhy.netdemo.models.ResponseModel.CarNextResponse;
+import com.jhhy.netdemo.models.ResponseModel.CarRentDetail;
+import com.jhhy.netdemo.models.FetchModel.CarRentFetchModel;
+import com.jhhy.netdemo.models.FetchModel.CarRentNextModel;
+import com.jhhy.netdemo.models.ResponseModel.CarRentOrderResponse;
+import com.jhhy.netdemo.models.ResponseModel.FetchError;
+import com.jhhy.netdemo.models.ResponseModel.FetchResponseModel;
 import com.jhhy.netdemo.utils.LogUtil;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.xutils.common.Callback;
-import org.xutils.ex.HttpException;
-
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -35,15 +36,50 @@ public class CarRentActionBiz extends  BasicActionBiz{
         super(context, handler);
     }
 
+    private static final String BIZTAG = "CarRentActionBiz";
+
+    public JsonElement parseJsonBody(FetchResponseModel model){
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(model.body);
+        return element;
+    }
 
     /**
      *  租车
      */
-    public void fetchCarRentalServiceDetail(){
+    public void fetchCarRentalServiceDetail(BizCallback callBack){
         CarRentFetchModel fetchRequest = new CarRentFetchModel();
         fetchRequest.setBizCode("Car_index");
-        LogUtil.e("CarRentActionBiz",fetchRequest.toBizJsonString());
-        HttpUtils.executeXutils(fetchRequest,detailCallback);
+        LogUtil.e(BIZTAG,fetchRequest.toBizJsonString());
+
+        final FetchResponse fetchResponse = new FetchResponse(callBack) {
+            @Override
+            public void onCompletion(FetchResponseModel response) {
+                BasicResponseModel returnModel = new BasicResponseModel();
+                returnModel.headModel = response.head;
+                JsonElement element = parseJsonBody(response);
+                if (element.isJsonObject()) {
+
+                } else if (element.isJsonArray()) {
+                    ArrayList<CarRentDetail> array = new ArrayList<CarRentDetail>();
+                    JsonArray jsonArray = element.getAsJsonArray();
+                    Iterator it = jsonArray.iterator();
+                    while (it.hasNext()) {
+                        JsonElement e = (JsonElement) it.next();
+                        CarRentDetail detail = new Gson().fromJson(e, CarRentDetail.class);
+                        array.add(detail);
+                    }
+                    returnModel.body = array;
+                    this.bizCallback.onCompletion(returnModel);
+                }
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                this.bizCallback.onError(error);
+            }
+        };
+        HttpUtils.executeXutils(fetchRequest, new FetchCallBack(fetchResponse));
     }
 
 
@@ -51,50 +87,100 @@ public class CarRentActionBiz extends  BasicActionBiz{
      *  租车下一步
      *  @param model   参数，参照文档
      */
-    public void carRentNextApi(CarRentNextModel model){
+    public void carRentNextApi(CarRentNextModel model,BizCallback callBack){
         model.code = "Car_nexts";
-        HttpUtils.executeXutils(model,detailCallback);
+        FetchResponse fetchResponse = new FetchResponse(callBack) {
+            @Override
+            public void onCompletion(FetchResponseModel response) {
+                BasicResponseModel returnModel = new BasicResponseModel();
+                JsonElement element = parseJsonBody(response);
+                if (element.isJsonObject()){
+                    CarNextResponse carNext = new Gson().fromJson(element,CarNextResponse.class);
+                    returnModel.headModel = response.head;
+                    returnModel.body = carNext;
+                    this.bizCallback.onCompletion(returnModel);
+                }
+                else{
+                    // exception
+                }
+            }
+            @Override
+            public void onError(FetchError error) {
+                this.bizCallback.onError(error);
+            }
+        };
+
+        HttpUtils.executeXutils(model,new FetchCallBack(fetchResponse));
     }
 
-    private Callback.CommonCallback<String> detailCallback = new Callback.CommonCallback<String>() {
+    /**
+     *  租车提交订单
+     *  @param model   参数，参照文档
+     */
+    public void CarRentSubmitOrder(CarRentOrder model, BizCallback callBack){
+        model.code = "Order_carorder";
+        FetchResponse fetchResponse = new FetchResponse(callBack){
 
-        @Override
-        public void onSuccess(String result) {
-            try {
-                JSONObject resultObj = new JSONObject(result);
-                String bodyStr = resultObj.getString("body");
-                String headStr = resultObj.getString("head");
-                FetchResponseModel model =  new FetchResponseModel(); //new Gson().fromJson(result,FetchResponseModel.class);
-                model.body = bodyStr;
-                model.head = new Gson().fromJson(headStr,FetchResponseModel.HeadModel.class);
-
-                handler.sendMessage(new Message());
-                LogUtil.e("xxxxx","onSuccess =" + result + ", type = " + model.body.getClass() + "toString = " + model.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
+            @Override
+            public void onCompletion(FetchResponseModel response) {
+                BasicResponseModel returnModel = new BasicResponseModel();
+                JsonElement element = parseJsonBody(response);
+                if (element.isJsonObject()){
+                    CarRentOrderResponse orderResponse = new Gson().fromJson(element,CarRentOrderResponse.class);
+                    returnModel.headModel = response.head;
+                    returnModel.body = orderResponse;
+                    this.bizCallback.onCompletion(returnModel);
+                }
+                else{
+                    // exception
+                }
             }
 
+            @Override
+            public void onError(FetchError error) {
+                this.bizCallback.onError(error);
+            }
+        };
 
-        }
+        HttpUtils.executeXutils(model,new FetchCallBack(fetchResponse));
+    }
 
-        @Override
-        public void onError(Throwable ex, boolean isOnCallback) {
-            handler.sendEmptyMessage(-1);
-            HttpException httpEx = (HttpException) ex;
-            String responseMsg = httpEx.getMessage();
-            String errorResult = httpEx.getResult();
-            LogUtil.e("xxxxx","onError = " + responseMsg + " ---> " + errorResult);
-        }
 
-        @Override
-        public void onCancelled(CancelledException cex) {
+    /**
+     *  获取租车城市
+     *  @param model   参数，参照文档
+     */
+     public void  CarRentGetCitys(CarRentCity model,BizCallback callBack){
+        model.code = "Car_zccity";
 
-        }
+         FetchResponse fetchResponse = new FetchResponse(callBack){
 
-        @Override
-        public void onFinished() {
-            handler.sendEmptyMessage(0);
-        }
-    };
+             @Override
+             public void onCompletion(FetchResponseModel response) {
+                 BasicResponseModel returnModel = new BasicResponseModel();
+                 JsonElement element = parseJsonBody(response);
+                 if (element.isJsonArray()){
+                     ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
+                     List<List<String>> result =  new Gson().fromJson(element,array.getClass());
+                     returnModel.body = result;
+                     returnModel.headModel = response.head;
+                     this.bizCallback.onCompletion(returnModel);
+                 }
+                 else{
+
+                 }
+             }
+
+             @Override
+             public void onError(FetchError error) {
+                 this.bizCallback.onError(error);
+             }
+         };
+
+         HttpUtils.executeXutils(model,new FetchCallBack(fetchResponse));
+     }
+
+
+
 
 }

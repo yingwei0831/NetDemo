@@ -1,4 +1,4 @@
-package com.jhhy.netdemo.models;
+package com.jhhy.netdemo.models.FetchModel;
 
 import com.google.gson.Gson;
 import com.jhhy.netdemo.utils.Consts;

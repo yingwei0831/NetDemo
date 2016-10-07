@@ -167,8 +167,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCompletion(BasicResponseModel model) {
-                ArrayList<ArrayList<String>> result = (ArrayList<ArrayList<String>>) model.body;
-                LogUtil.e(TAG, "carRentPriceEstimate = " + result.toString());
+                ArrayList<ArrayList<String>> result =(ArrayList<ArrayList<String>>)model.body;
+                if (null != result){
+                    LogUtil.e(TAG, "carRentPriceEstimate = " + result.toString());
+
+                }
+                else {
+
+                }
             }
         });
     }

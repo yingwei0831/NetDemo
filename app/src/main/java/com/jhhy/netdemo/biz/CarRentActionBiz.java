@@ -320,15 +320,20 @@ public class CarRentActionBiz extends  BasicActionBiz{
             public void onCompletion(FetchResponseModel response) {
                 BasicResponseModel returnModel = new BasicResponseModel();
                 JsonElement element = parseJsonBody(response);
-                if (element.isJsonObject()){
-                    SmallCarOrderResponse orderResponse = new Gson().fromJson(element,SmallCarOrderResponse.class);
-                    returnModel.headModel = response.head;
-                    returnModel.body = orderResponse;
-                    this.bizCallback.onCompletion(returnModel);
+                if(null != element){
+                    if (element.isJsonObject()){
+                        SmallCarOrderResponse orderResponse = new Gson().fromJson(element,SmallCarOrderResponse.class);
+                        returnModel.headModel = response.head;
+                        returnModel.body = orderResponse;
+
+                    }
+                    else{
+                        // exception
+                    }
                 }
-                else{
-                    // exception
-                }
+
+
+                this.bizCallback.onCompletion(returnModel);
             }
 
             @Override

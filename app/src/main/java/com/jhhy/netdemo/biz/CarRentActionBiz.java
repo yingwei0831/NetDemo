@@ -48,7 +48,7 @@ public class CarRentActionBiz extends  BasicActionBiz{
 
     public JsonElement parseJsonBody(FetchResponseModel model){
         JsonParser parser = new JsonParser();
-        if(model.body != null && !"null".equals(model.body) && model.body.length() > 0){
+        if(model.body != null && !("null".equals(model.body)) && model.body.length() > 0){
             JsonElement element = parser.parse(model.body);
             return element;
         }
@@ -85,20 +85,25 @@ public class CarRentActionBiz extends  BasicActionBiz{
                 BasicResponseModel returnModel = new BasicResponseModel();
                 returnModel.headModel = response.head;
                 JsonElement element = parseJsonBody(response);
-                if (element.isJsonObject()) {
+                if(null != element){
+                    if (element.isJsonObject()) {
 
-                } else if (element.isJsonArray()) {
-                    ArrayList<CarRentDetail> array = new ArrayList<CarRentDetail>();
-                    JsonArray jsonArray = element.getAsJsonArray();
-                    Iterator it = jsonArray.iterator();
-                    while (it.hasNext()) {
-                        JsonElement e = (JsonElement) it.next();
-                        CarRentDetail detail = new Gson().fromJson(e, CarRentDetail.class);
-                        array.add(detail);
+                    } else if (element.isJsonArray()) {
+                        ArrayList<CarRentDetail> array = new ArrayList<CarRentDetail>();
+                        JsonArray jsonArray = element.getAsJsonArray();
+                        Iterator it = jsonArray.iterator();
+                        while (it.hasNext()) {
+                            JsonElement e = (JsonElement) it.next();
+                            CarRentDetail detail = new Gson().fromJson(e, CarRentDetail.class);
+                            array.add(detail);
+                        }
+                        returnModel.body = array;
+
                     }
-                    returnModel.body = array;
-                    this.bizCallback.onCompletion(returnModel);
                 }
+
+                this.bizCallback.onCompletion(returnModel);
+
             }
 
             @Override
@@ -125,11 +130,12 @@ public class CarRentActionBiz extends  BasicActionBiz{
                     CarNextResponse carNext = new Gson().fromJson(element,CarNextResponse.class);
                     returnModel.headModel = response.head;
                     returnModel.body = carNext;
-                    this.bizCallback.onCompletion(returnModel);
+
                 }
                 else{
                     // exception
                 }
+                this.bizCallback.onCompletion(returnModel);
             }
             @Override
             public void onError(FetchError error) {
@@ -155,11 +161,12 @@ public class CarRentActionBiz extends  BasicActionBiz{
                     CarRentOrderResponse orderResponse = new Gson().fromJson(element,CarRentOrderResponse.class);
                     returnModel.headModel = response.head;
                     returnModel.body = orderResponse;
-                    this.bizCallback.onCompletion(returnModel);
+
                 }
                 else{
                     // exception
                 }
+                this.bizCallback.onCompletion(returnModel);
             }
             @Override
             public void onError(FetchError error) {
@@ -188,10 +195,11 @@ public class CarRentActionBiz extends  BasicActionBiz{
                      List<List<String>> result =  new Gson().fromJson(element,array.getClass());
                      returnModel.body = result;
                      returnModel.headModel = response.head;
-                     this.bizCallback.onCompletion(returnModel);
+
                  }
                  else{
                  }
+                 this.bizCallback.onCompletion(returnModel);
              }
 
              @Override

@@ -133,6 +133,7 @@ public class CarRentActionBiz extends BasicActionBiz {
                 }
                 else{
                     // exception
+                    assert (false);
                 }
                 this.bizCallback.onCompletion(returnModel);
             }
@@ -164,6 +165,7 @@ public class CarRentActionBiz extends BasicActionBiz {
                 }
                 else{
                     // exception
+                    assert (false);
                 }
                 this.bizCallback.onCompletion(returnModel);
             }
@@ -197,6 +199,7 @@ public class CarRentActionBiz extends BasicActionBiz {
 
                  }
                  else{
+                     assert (false);
                  }
                  this.bizCallback.onCompletion(returnModel);
              }
@@ -328,6 +331,7 @@ public class CarRentActionBiz extends BasicActionBiz {
                     }
                     else{
                         // exception
+                        assert (false);
                     }
                 }
 

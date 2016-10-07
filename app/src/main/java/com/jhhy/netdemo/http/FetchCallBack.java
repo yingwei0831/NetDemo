@@ -50,8 +50,9 @@ public class FetchCallBack implements Callback.CommonCallback<String> {
         error.errroCode = -1;
         error.msg = responseMsg;
         error.info = errorResult;
+        error.exceptionName = ex.toString();
         this.response.onError(error);
-        LogUtil.e(TAG, " " + error.msg + error.info);
+        LogUtil.e(TAG, " error.msg = " + error.msg +", error.info = "+ error.info + ", error.exceptionName = "+error.exceptionName);
 //        if (ex instanceof HttpException) {
 //            HttpException httpEx = (HttpException) ex;
 //            String responseMsg = httpEx.getMessage();

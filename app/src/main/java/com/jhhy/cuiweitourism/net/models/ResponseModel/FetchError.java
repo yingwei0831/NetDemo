@@ -20,6 +20,7 @@ public class FetchError {
                 ", msg='" + msg + '\'' +
                 ", info='" + info + '\'' +
                 ", exceptionName='" + exceptionName + '\'' +
+                ", localReason='" + localReason + '\'' +
                 '}';
     }
 }

@@ -1,9 +1,11 @@
 package com.jhhy.cuiweitourism.net.models.ResponseModel;
 
+import java.io.Serializable;
+
 /**
  * Created by birney on 2016-10-02.
  */
-public class CarRentOrderResponse {
+public class CarRentOrderResponse implements Serializable{
 
     //:{"productname":"金龙客车(55座)","ordersn":"03420733570178","price":"2500","usetime":"2016-08-30"}
     public String productname;

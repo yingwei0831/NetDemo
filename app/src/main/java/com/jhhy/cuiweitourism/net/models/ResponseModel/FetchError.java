@@ -11,6 +11,8 @@ public class FetchError {
 
     public String exceptionName;
 
+    public String localReason = null;
+
     @Override
     public String toString() {
         return "FetchError{" +

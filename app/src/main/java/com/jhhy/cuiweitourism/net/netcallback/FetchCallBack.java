@@ -1,5 +1,7 @@
 package com.jhhy.cuiweitourism.net.netcallback;
 
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchError;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchResponseModel;
@@ -8,6 +10,11 @@ import com.jhhy.cuiweitourism.net.utils.LogUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
+import org.xutils.ex.HttpException;
+
+import java.net.ConnectException;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 
 /**
  * Created by zhangguang on 16/9/30.
@@ -48,9 +55,23 @@ public class FetchCallBack implements Callback.CommonCallback<String> {
         error.msg = responseMsg;
         error.info = errorResult;
         error.exceptionName = ex.toString();
+
+       // LogUtil.e(TAG, " error.msg = " + error.msg +", error.info = "+ error.info + ", error.exceptionName = "+error.exceptionName);
+        if (ex instanceof HttpException) {
+            LogUtil.e(TAG, " excetpion = " + ex.toString());
+        }
+        else if(ex instanceof UnknownHostException){
+            LogUtil.e(TAG, " excetpion = " + ex.toString());
+            //Toast.makeText(getApplicationContext(), "请检查网络连接并重试", Toast.LENGTH_SHORT).show();
+            error.localReason = "请检查网络连接并重试";
+        }
+        else if(ex instanceof ConnectException){
+            LogUtil.e(TAG, " excetpion = " + ex.toString());
+            error.localReason = "请检查网络连接并重试";
+        }
+
         this.response.onError(error);
-        LogUtil.e(TAG, " error.msg = " + error.msg +", error.info = "+ error.info + ", error.exceptionName = "+error.exceptionName);
-//        if (ex instanceof HttpException) {
+
 //            HttpException httpEx = (HttpException) ex;
 //            String responseMsg = httpEx.getMessage();
 //            String errorResult = httpEx.getResult();

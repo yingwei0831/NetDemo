@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.jhhy.cuiweitourism.net.biz.ActivityActionBiz;
 import com.jhhy.cuiweitourism.net.biz.CarRentActionBiz;
 import com.jhhy.cuiweitourism.net.biz.HomePageActionBiz;
+import com.jhhy.cuiweitourism.net.models.FetchModel.ActivityHot;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarModel;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarPriceEstimate;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarRentCity;
@@ -21,6 +22,8 @@ import com.jhhy.cuiweitourism.net.models.FetchModel.CarSmallOrderCancel;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomAdd;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomList;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustonDetail;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotDetailInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.BasicResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.CarNextResponse;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.CarRentDetail;
@@ -346,8 +349,37 @@ public class MainActivity extends AppCompatActivity {
          */
 
         ActivityActionBiz activityBiz = new ActivityActionBiz();
+        //{"areaid":"20","order":"addtime desc","day":"5",
+        // "price":"2000,50000","zcfdate":"","page":"1","offset":"10"
+        ActivityHot hot = new ActivityHot("20","addtime desc","5","2000,50000","","1","10");
+        activityBiz.activitiesHotGetInfo(hot, new BizGenericCallback<ArrayList<ActivityHotInfo>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<ActivityHotInfo>> model) {
+                ArrayList<ActivityHotInfo> array = model.body;
+                LogUtil.e(TAG,"activitiesHotGetInfo =" + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, " activitiesHotGetInfo :" + error.toString());
+            }
+        });
 
 
+
+        HomePageCustonDetail detailC = new HomePageCustonDetail("1");
+        activityBiz.activitiesHotGetDetailInfo(detailC, new BizGenericCallback<ActivityHotDetailInfo>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ActivityHotDetailInfo> model) {
+                ActivityHotDetailInfo info = model.body;
+                LogUtil.e(TAG,"activitiesHotGetDetailInfo =" + info.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, " activitiesHotGetDetailInfo :" + error.toString());
+            }
+        });
 
     }
 }

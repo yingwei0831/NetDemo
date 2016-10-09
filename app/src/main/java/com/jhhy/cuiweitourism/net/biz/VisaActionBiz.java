@@ -7,10 +7,17 @@ import com.jhhy.cuiweitourism.net.models.FetchModel.VisaHotCountry;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.BasicResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchError;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchResponseModel;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.GenericResponseModel;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.VisaHotCountryInfo;
 import com.jhhy.cuiweitourism.net.netcallback.BizCallback;
+import com.jhhy.cuiweitourism.net.netcallback.BizGenericCallback;
 import com.jhhy.cuiweitourism.net.netcallback.FetchCallBack;
+import com.jhhy.cuiweitourism.net.netcallback.FetchGenericCallback;
+import com.jhhy.cuiweitourism.net.netcallback.FetchGenericResponse;
 import com.jhhy.cuiweitourism.net.netcallback.FetchResponse;
 import com.jhhy.cuiweitourism.net.netcallback.HttpUtils;
+
+import java.util.ArrayList;
 
 
 /**
@@ -29,22 +36,23 @@ public class VisaActionBiz extends  BasicActionBiz {
      *  热门签证国家
      */
 
-    public  void VisaGetHotCountry(BizCallback callBack){
+    public  void VisaGetHotCountry(BizGenericCallback<ArrayList<VisaHotCountryInfo>> callBack){
         VisaHotCountry hotCountry = new VisaHotCountry();
         hotCountry.setBizCode("Visa_index");
-        final FetchResponse fetchResponse = new FetchResponse(callBack) {
+        final FetchGenericResponse<ArrayList<VisaHotCountryInfo>> fetchResponse = new FetchGenericResponse<ArrayList<VisaHotCountryInfo>>(callBack) {
             @Override
             public void onCompletion(FetchResponseModel response) {
-                BasicResponseModel returnModel = new BasicResponseModel();
+                ArrayList<VisaHotCountryInfo> array = parseJsonToObjectArray(response,VisaHotCountryInfo.class);
+                GenericResponseModel<ArrayList<VisaHotCountryInfo>> returnModel  =
+                        new GenericResponseModel<ArrayList<VisaHotCountryInfo>>(response.head,array);
                 this.bizCallback.onCompletion(returnModel);
-
             }
-
             @Override
             public void onError(FetchError error) {
                 this.bizCallback.onError(error);
             }
         };
-        HttpUtils.executeXutils(hotCountry, new FetchCallBack(fetchResponse));
+
+        HttpUtils.executeXutils(hotCountry, new FetchGenericCallback(fetchResponse));
     }
 }

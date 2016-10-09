@@ -3,7 +3,7 @@ package com.jhhy.cuiweitourism.net.models.ResponseModel;
 /**
  * Created by zhangguang on 16/10/9.
  */
-public class VisaHotCountryInfo extends BasicResponseModel {
+public class VisaHotCountryInfo  {
 
     //{"litpic":"http:\/\/www.cwly1118.com\/uploads\/main\/allimg\/20150925\/20150925132538.jpg","kindname":"新加坡","id":"4"}
     public String litpic;

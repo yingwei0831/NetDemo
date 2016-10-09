@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.jhhy.cuiweitourism.net.biz.CarRentActionBiz;
+import com.jhhy.cuiweitourism.net.biz.VisaActionBiz;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarModel;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarOrderQuery;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarPriceEstimate;
@@ -17,7 +18,6 @@ import com.jhhy.cuiweitourism.net.models.FetchModel.CarRentPickLocation1;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarRentPickLocation2;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarSmallOrder;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarSmallOrderCancel;
-import com.jhhy.cuiweitourism.net.models.Order;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.BasicResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.CarNextResponse;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.CarRentDetail;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             switch (msg.what) {
                 case Consts.MESSAGE_ORDER_DETAIL:
                     if (msg.arg1 == 1) {
-                        Order order = (Order) msg.obj;
+         //               Order order = (Order) msg.obj;
 //                        LogUtil.e("info", "info = "+order.toString());
                     }
                     break;
@@ -207,28 +207,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCompletion(BasicResponseModel model) {
                 SmallCarOrderResponse  result =(SmallCarOrderResponse)model.body;
+                LogUtil.e(TAG, "carRentSmallCarOrder = " + result.toString());
                 if (null != result){
-                    LogUtil.e(TAG, "carRentSmallCarOrder = " + result.toString());
+
 
 
                     /**********************查询订单*******************************/
-                    CarOrderQuery query = new CarOrderQuery(result.PlatOrderNo,result.OrderNo);
-                    carBiz.carRentOrderQuery(query, new BizCallback() {
-                        @Override
-                        public void onError(FetchError error) {
-                            LogUtil.e(TAG, " carRentOrderQuery :" + error.toString());
-                        }
-
-                        @Override
-                        public void onCompletion(BasicResponseModel model) {
-                            CarRentOrderInfo orderInfo = (CarRentOrderInfo)model.body;
-                            LogUtil.e(TAG, "carRentOrderQuery = " + orderInfo.toString());
-                        }
-                    });
+//                    CarOrderQuery query = new CarOrderQuery(result.PlatOrderNo,result.OrderNo);
+//                    carBiz.carRentOrderQuery(query, new BizCallback() {
+//                        @Override
+//                        public void onError(FetchError error) {
+//                            LogUtil.e(TAG, " carRentOrderQuery :" + error.toString());
+//                        }
+//
+//                        @Override
+//                        public void onCompletion(BasicResponseModel model) {
+//                            CarRentOrderInfo orderInfo = (CarRentOrderInfo)model.body;
+//                            LogUtil.e(TAG, "carRentOrderQuery = " + orderInfo.toString());
+//                        }
+//                    });
                     /*****************************************************/
 
                     /************************取消订单*****************************/
-                    /*CarSmallOrderCancel cancel = new CarSmallOrderCancel(result.PlatOrderNo,result.OrderNo,
+                    CarSmallOrderCancel cancel = new CarSmallOrderCancel(result.PlatOrderNo,result.OrderNo,
                             "xxxxxx","xxxxxx");
                     carBiz.carRentSmallCarOrderCancel(cancel, new BizCallback() {
                         @Override
@@ -246,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), headModel.res_arg, Toast.LENGTH_SHORT).show();
                             //LogUtil.e(TAG, "carRentSmallCarOrderCancel = " + headModel.toString());
                         }
-                    });*/
+                    });
                     /****************************************************/
 
                 }
@@ -256,6 +257,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+        /**
+         * 签证
+         */
+
+        VisaActionBiz visBiz = new VisaActionBiz();
+        visBiz.VisaGetHotCountry(new BizCallback() {
+            @Override
+            public void onError(FetchError error) {
+
+            }
+
+            @Override
+            public void onCompletion(BasicResponseModel model) {
+
+            }
+        });
 
     }
 }

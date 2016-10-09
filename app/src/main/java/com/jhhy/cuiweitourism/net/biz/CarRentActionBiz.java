@@ -170,17 +170,19 @@ public class CarRentActionBiz extends BasicActionBiz {
              @Override
              public void onCompletion(FetchResponseModel response) {
                  BasicResponseModel returnModel = new BasicResponseModel();
+                 returnModel.headModel = response.head;
                  JsonElement element = parseJsonBody(response);
-                 if (element.isJsonArray()){
-                     ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
-                     List<List<String>> result =  new Gson().fromJson(element,array.getClass());
-                     returnModel.body = result;
-                     returnModel.headModel = response.head;
+                 if(element != null){
+                     if (element.isJsonArray()){
+                         ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
+                         List<List<String>> result =  new Gson().fromJson(element,array.getClass());
+                         returnModel.body = result;
+                     }
+                     else{
+                         assert (false);
+                     }
+                 }
 
-                 }
-                 else{
-                     assert (false);
-                 }
                  this.bizCallback.onCompletion(returnModel);
              }
 

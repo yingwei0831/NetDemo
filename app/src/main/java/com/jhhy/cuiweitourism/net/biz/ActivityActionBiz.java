@@ -3,6 +3,11 @@ package com.jhhy.cuiweitourism.net.biz;
 import android.content.Context;
 import android.os.Handler;
 
+import com.jhhy.cuiweitourism.net.models.FetchModel.ActivityHot;
+import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomList;
+import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustonDetail;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotDetailInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchError;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.GenericResponseModel;
@@ -27,17 +32,16 @@ public class ActivityActionBiz extends BasicActionBiz {
     }
 
     /**
-     * 发起活动
+     * 热门活动
      */
 
-    public void lanchActivity(ActivitiesLaunch lanch, BizGenericCallback<ArrayList<Object>> callback)
-    {
-        lanch.code = "Activity_publish";
-        final FetchGenericResponse<ArrayList<Object>> fetchResponse =  new FetchGenericResponse<ArrayList<Object>>(callback) {
+    public void activitiesHotGetInfo(ActivityHot hot, BizGenericCallback<ArrayList<ActivityHotInfo>> callback){
+        hot.code = "Activity_hotpublish";
+        final FetchGenericResponse<ArrayList<ActivityHotInfo>> fetchResponse = new FetchGenericResponse<ArrayList<ActivityHotInfo>>(callback) {
             @Override
             public void onCompletion(FetchResponseModel response) {
-                ArrayList<Object> objects = parseJsonToObjectArray(response,Object.class);
-                GenericResponseModel<ArrayList<Object>> returnModel = new GenericResponseModel<ArrayList<Object>>(response.head,objects);
+                ArrayList<ActivityHotInfo> array = parseJsonToObjectArray(response,ActivityHotInfo.class);
+                GenericResponseModel<ArrayList<ActivityHotInfo>> returnModel = new GenericResponseModel<>(response.head,array);
                 this.bizCallback.onCompletion(returnModel);
             }
 
@@ -46,6 +50,28 @@ public class ActivityActionBiz extends BasicActionBiz {
                 this.bizCallback.onError(error);
             }
         };
-        HttpUtils.executeXutils(lanch,new FetchGenericCallback(fetchResponse));
+        HttpUtils.executeXutils(hot, new FetchGenericCallback(fetchResponse));
+    }
+
+    /**
+     * 热门活动详情
+     */
+
+    public void activitiesHotGetDetailInfo(HomePageCustonDetail detail,BizGenericCallback<ActivityHotDetailInfo> callback){
+        detail.code = "Activity_hotpublishshow";
+        final FetchGenericResponse<ActivityHotDetailInfo> fetchResponse = new FetchGenericResponse<ActivityHotDetailInfo>(callback) {
+            @Override
+            public void onCompletion(FetchResponseModel response) {
+                ActivityHotDetailInfo info = parseJsonToObject(response,ActivityHotDetailInfo.class);
+                GenericResponseModel<ActivityHotDetailInfo> returnModel = new GenericResponseModel<ActivityHotDetailInfo>(response.head,info);
+                this.bizCallback.onCompletion(returnModel);
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                this.bizCallback.onError(error);
+            }
+        };
+        HttpUtils.executeXutils(detail, new FetchGenericCallback(fetchResponse));
     }
 }

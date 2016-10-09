@@ -35,6 +35,7 @@ public class ActivityActionBiz extends BasicActionBiz {
      * 热门活动
      */
 
+<<<<<<< HEAD
     public void activitiesHotGetInfo(ActivityHot hot, BizGenericCallback<ArrayList<ActivityHotInfo>> callback){
         hot.code = "Activity_hotpublish";
         final FetchGenericResponse<ArrayList<ActivityHotInfo>> fetchResponse = new FetchGenericResponse<ArrayList<ActivityHotInfo>>(callback) {
@@ -74,5 +75,7 @@ public class ActivityActionBiz extends BasicActionBiz {
         };
         HttpUtils.executeXutils(detail, new FetchGenericCallback(fetchResponse));
     }
+=======
+>>>>>>> 1d4cdbed32ad25ae11cb0081d462974eb4a37ff7
 
 }

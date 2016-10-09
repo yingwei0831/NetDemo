@@ -4,13 +4,14 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+
 import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchResponseModel;
-import com.jhhy.cuiweitourism.net.netcallback.FetchResponse;
 
 import java.util.ArrayList;
-import java.util.IllegalFormatCodePointException;
+import java.util.Iterator;
 
 /**
  * Created by birney1 on 16/9/28.
@@ -58,8 +59,23 @@ public class BasicActionBiz {
         return t;
     }
 
-    public <T> ArrayList<T>  parseJsonToTemplateArray(FetchResponseModel model,Class<T> c){
-        return  new ArrayList<T>();
+    public <T> ArrayList<T>  parseJsonToObjectArray(FetchResponseModel model,Class<T> c){
+        JsonElement element = parseJsonBody(model);
+        ArrayList<T> array = new ArrayList<T>();
+        JsonArray jsonArray = element.getAsJsonArray();
+        Iterator it = jsonArray.iterator();
+        while (it.hasNext()) {
+            JsonElement e = (JsonElement) it.next();
+            T detail = new Gson().fromJson(e, c);
+            array.add(detail);
+        }
+        return  array;
+    }
+
+    public <T> T parseJsonToObject(FetchResponseModel model,Class<T> c){
+        JsonElement element = parseJsonBody(model);
+        T object = new Gson().fromJson(element,c);
+        return object;
     }
 
 //    public void getBizMap{

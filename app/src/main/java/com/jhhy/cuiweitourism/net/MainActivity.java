@@ -385,19 +385,19 @@ public class MainActivity extends AppCompatActivity {
          */
 
         ActivityActionBiz activityBiz = new ActivityActionBiz();
-//        ActivityHot hot = new ActivityHot("20","addtime desc","5","2000,50000","","1","10");
-//        activityBiz.activitiesHotGetInfo(hot, new BizGenericCallback<ArrayList<ActivityHotInfo>>() {
-//            @Override
-//            public void onCompletion(GenericResponseModel<ArrayList<ActivityHotInfo>> model) {
-//                ArrayList<ActivityHotInfo> array = model.body;
-//                LogUtil.e(TAG,"activitiesHotGetInfo =" + array.toString());
-//            }
-//
-//            @Override
-//            public void onError(FetchError error) {
-//                LogUtil.e(TAG, " activitiesHotGetInfo :" + error.toString());
-//            }
-//        });
+        ActivityHot hot = new ActivityHot("20","addtime desc","5","2000,50000","","1","10");
+        activityBiz.activitiesHotGetInfo(hot, new BizGenericCallback<ArrayList<ActivityHotInfo>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<ActivityHotInfo>> model) {
+                ArrayList<ActivityHotInfo> array = model.body;
+                LogUtil.e(TAG,"activitiesHotGetInfo =" + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, " activitiesHotGetInfo :" + error.toString());
+            }
+        });
 
 
         //热门活动详情
@@ -405,15 +405,11 @@ public class MainActivity extends AppCompatActivity {
         activityBiz.activitiesHotGetDetailInfo(detailC, new BizGenericCallback<ActivityHotDetailInfo>() {
             @Override
             public void onCompletion(GenericResponseModel<ActivityHotDetailInfo> model) {
-                Log.e(TAG, "activitiesHotGetDetailInfo--------------------onCompletion--------------------");
                 ActivityHotDetailInfo info = model.body;
-                String toString = info.toString();
-                LogUtil.e(TAG,"activitiesHotGetDetailInfo: " + toString.substring(0,100));
             }
 
             @Override
             public void onError(FetchError error) {
-                Log.e(TAG, "activitiesHotGetDetailInfo--------------------onError--------------------");
                 LogUtil.e(TAG, "activitiesHotGetDetailInfo: " + error.toString());
             }
         });

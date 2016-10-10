@@ -307,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 首页
          */
-
+        //个性定制列表
         HomePageActionBiz homePageBiz = new HomePageActionBiz();
         HomePageCustomList list = new HomePageCustomList("1","10");
         homePageBiz.houmePageCustomList(list, new BizGenericCallback<ArrayList<HomePageCustomListInfo>>() {

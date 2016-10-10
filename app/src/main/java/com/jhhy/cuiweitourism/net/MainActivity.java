@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                     /*****************************************************/
 
                     /************************取消订单*****************************/
-                    /*CarSmallOrderCancel cancel = new CarSmallOrderCancel(result.PlatOrderNo,result.OrderNo,
+                    CarSmallOrderCancel cancel = new CarSmallOrderCancel(result.PlatOrderNo,result.OrderNo,
                             "xxxxxx","xxxxxx");
                     carBiz.carRentSmallCarOrderCancel(cancel, new BizCallback() {
                         @Override
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), headModel.res_arg, Toast.LENGTH_SHORT).show();
                             //LogUtil.e(TAG, "carRentSmallCarOrderCancel = " + headModel.toString());
                         }
-                    });*/
+                    });
                     /****************************************************/
 
                 }

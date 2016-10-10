@@ -26,6 +26,7 @@ import com.jhhy.cuiweitourism.net.models.FetchModel.CarSmallOrderCancel;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomAdd;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomList;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustonDetail;
+import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageOfflinePay;
 import com.jhhy.cuiweitourism.net.models.FetchModel.MemberCenterMsg;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotInfo;
@@ -74,9 +75,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        carBizCallTest();
-//        homePageCallTest();
-//        visaBizCallTest();
+        carBizCallTest();
+        homePageCallTest();
+        visaBizCallTest();
         activityBizCallTest();
         memberCenterBizCallTest();
     }
@@ -359,6 +360,22 @@ public class MainActivity extends AppCompatActivity {
                 LogUtil.e(TAG, " homePageCustomAdd :" + error.toString());
             }
         });
+
+
+        HomePageOfflinePay pay = new HomePageOfflinePay("01743499124334");
+        homePageBiz.homePageOfflinePay(pay, new BizGenericCallback<ArrayList<Object>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<Object>> model) {
+                ArrayList<Object> array = model.body;
+                LogUtil.e(TAG,"homePageOfflinePay =" + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, " homePageOfflinePay :" + error.toString());
+            }
+        });
+
     }
 
 

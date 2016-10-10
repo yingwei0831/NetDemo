@@ -58,14 +58,9 @@ public class VisaActionBiz extends  BasicActionBiz {
 }
 
 
-{
-        "head": {
-        "res_code": "0000",
-        "res_msg": "success",
-        "res_arg": "获取成功"
-        },
-        "body": {
-        "P": {
+
+
+"P": {
         "PEK": [
         "北京首都",
         "北京首都国际机场",
@@ -205,6 +200,18 @@ public class VisaActionBiz extends  BasicActionBiz {
         "SIN"
         ]
         },
+
+
+
+
+
+
+
+
+
+        
+
+
         "A": {
         "HU": [
         "海南航空",
@@ -23588,4 +23595,4 @@ public class VisaActionBiz extends  BasicActionBiz {
         }
         }
         }
-        }
+

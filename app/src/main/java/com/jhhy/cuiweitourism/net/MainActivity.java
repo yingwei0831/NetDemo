@@ -31,7 +31,9 @@ import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomAdd;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomList;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustonDetail;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageOfflinePay;
+import com.jhhy.cuiweitourism.net.models.FetchModel.HotelDetailRequest;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HotelListFetchRequest;
+import com.jhhy.cuiweitourism.net.models.FetchModel.HotelOrderFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.MemberCenterMsg;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotInfo;
@@ -47,7 +49,9 @@ import com.jhhy.cuiweitourism.net.models.ResponseModel.ForeEndAdvertisingPositio
 import com.jhhy.cuiweitourism.net.models.ResponseModel.GenericResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HomePageCustomDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HomePageCustomListInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.HotelDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HotelListInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.HotelOrderInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterMsgInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterRemarkInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.SmallCarOrderResponse;
@@ -86,10 +90,10 @@ public class MainActivity extends AppCompatActivity {
 //        carBizCallTest();
 //        homePageCallTest();
 //        visaBizCallTest();
-//        activityBizCallTest();
+        activityBizCallTest();
 //        memberCenterBizCallTest();
-        forceEndBizCallTest();
-        hotelBizCallTest();
+//        forceEndBizCallTest();
+//        hotelBizCallTest();
     }
 
 
@@ -341,6 +345,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //个性定制详情
         HomePageCustonDetail detail = new HomePageCustonDetail("1");
         homePageBiz.homePageCustomDetail(detail, new BizGenericCallback<HomePageCustomDetailInfo>() {
             @Override
@@ -355,6 +360,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //个性定制提交定制
         //"startplace":"北京","dest":"夏威夷","starttime":"2016-8-30","days":"15","adultnum":"2","childnum":"0",
         // "yuesuan":"20000-50000","hotelrank":"豪华型","content":"备注","contactname":"李先生","phone":"15210656918","email":"A@A.com"
         HomePageCustomAdd add = new HomePageCustomAdd("北京","夏威夷","2016-8-30","15","2","0","20000-50000","豪华型","备注","李先生","15210656919","A@A.com");
@@ -371,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        //线下支付
         HomePageOfflinePay pay = new HomePageOfflinePay("01743499124334");
         homePageBiz.homePageOfflinePay(pay, new BizGenericCallback<ArrayList<Object>>() {
             @Override
@@ -416,6 +422,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCompletion(GenericResponseModel<ActivityHotDetailInfo> model) {
                 ActivityHotDetailInfo info = model.body;
+                LogUtil.e(TAG,"activitiesHotGetInfo " );
             }
 
             @Override
@@ -424,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        //热门活动提交订单
         ActivityOrder.Contact contact1 = new ActivityOrder.Contact("王二麻子","233695898745896597","13895878954");
         ActivityOrder.Contact contact2 = new ActivityOrder.Contact("王三麻子","233699685748896597","13869578954");
         ArrayList<ActivityOrder.Contact> array = new ArrayList<>();
@@ -542,6 +549,37 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onError(FetchError error) {
                 LogUtil.e(TAG, "houtelGetInfoList: " + error.toString());
+            }
+        });
+
+        HotelDetailRequest request1 = new HotelDetailRequest("4");
+        hotelBiz.hotelGetDetailInfo(request1, new BizGenericCallback<HotelDetailInfo>() {
+            @Override
+            public void onCompletion(GenericResponseModel<HotelDetailInfo> model) {
+                HotelDetailInfo info = model.body;
+                LogUtil.e(TAG,"hotelGetDetailInfo =" + info.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "hotelGetDetailInfo: " + error.toString());
+            }
+        });
+
+        //"memberid":"1","productaid":"4","productname":"九寨沟喜来登大酒店",
+        // "price":"800","usedate":"2016-10-10","dingnum":"1",
+        // "linkman":"张三","linktel":"15210656332","linkemail":"","suitid":"5","departdate":"2016-10-20"
+        HotelOrderFetch fetch = new HotelOrderFetch("1","4","九寨沟喜来登大酒店","800","2016-10-10","1","张三","15210656332","","5","2016-10-20");
+        hotelBiz.HotelSubmitOrder(fetch, new BizGenericCallback<HotelOrderInfo>() {
+            @Override
+            public void onCompletion(GenericResponseModel<HotelOrderInfo> model) {
+                HotelOrderInfo info = model.body;
+                LogUtil.e(TAG,"HotelSubmitOrder =" + info.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "HotelSubmitOrder: " + error.toString());
             }
         });
     }

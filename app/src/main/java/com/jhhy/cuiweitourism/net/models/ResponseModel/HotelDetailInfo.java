@@ -40,16 +40,119 @@ public class HotelDetailInfo {
 //    ]
 
     static public class Room{
-
-
         public String roomid;
         public String roomname;
         public String price;
         public ArrayList<String> imgs;
+
+        public Room(String roomid, String roomname, String price, ArrayList<String> imgs) {
+            this.roomid = roomid;
+            this.roomname = roomname;
+            this.price = price;
+            this.imgs = imgs;
+        }
+
+        public Room() {
+        }
+
+        public String getRoomid() {
+            return roomid;
+        }
+
+        public void setRoomid(String roomid) {
+            this.roomid = roomid;
+        }
+
+        public String getRoomname() {
+            return roomname;
+        }
+
+        public void setRoomname(String roomname) {
+            this.roomname = roomname;
+        }
+
+        public String getPrice() {
+            return price;
+        }
+
+        public void setPrice(String price) {
+            this.price = price;
+        }
+
+        public ArrayList<String> getImgs() {
+            return imgs;
+        }
+
+        public void setImgs(ArrayList<String> imgs) {
+            this.imgs = imgs;
+        }
+
+        @Override
+        public String toString() {
+            return "Room{" +
+                    "roomid='" + roomid + '\'' +
+                    ", roomname='" + roomname + '\'' +
+                    ", price='" + price + '\'' +
+                    ", imgs=" + imgs +
+                    '}';
+        }
     }
 
     public String title;
     public ArrayList<String > piclist;
     public String id;
     public ArrayList<Room> room;
+
+    public HotelDetailInfo(String title, ArrayList<String> piclist, String id, ArrayList<Room> room) {
+        this.title = title;
+        this.piclist = piclist;
+        this.id = id;
+        this.room = room;
+    }
+
+
+    public HotelDetailInfo() {
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public ArrayList<String> getPiclist() {
+        return piclist;
+    }
+
+    public void setPiclist(ArrayList<String> piclist) {
+        this.piclist = piclist;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public ArrayList<Room> getRoom() {
+        return room;
+    }
+
+    public void setRoom(ArrayList<Room> room) {
+        this.room = room;
+    }
+
+    @Override
+    public String toString() {
+        return "HotelDetailInfo{" +
+                "title='" + title + '\'' +
+                ", piclist=" + piclist +
+                ", id='" + id + '\'' +
+                ", room=" + room +
+                '}';
+    }
 }

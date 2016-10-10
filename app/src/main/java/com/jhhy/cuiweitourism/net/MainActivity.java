@@ -31,7 +31,9 @@ import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomAdd;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomList;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustonDetail;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageOfflinePay;
+import com.jhhy.cuiweitourism.net.models.FetchModel.HotelDetailRequest;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HotelListFetchRequest;
+import com.jhhy.cuiweitourism.net.models.FetchModel.HotelOrderFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.MemberCenterMsg;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotInfo;
@@ -47,7 +49,9 @@ import com.jhhy.cuiweitourism.net.models.ResponseModel.ForeEndAdvertisingPositio
 import com.jhhy.cuiweitourism.net.models.ResponseModel.GenericResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HomePageCustomDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HomePageCustomListInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.HotelDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HotelListInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.HotelOrderInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterMsgInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterRemarkInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.SmallCarOrderResponse;
@@ -542,6 +546,37 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onError(FetchError error) {
                 LogUtil.e(TAG, "houtelGetInfoList: " + error.toString());
+            }
+        });
+
+        HotelDetailRequest request1 = new HotelDetailRequest("4");
+        hotelBiz.hotelGetDetailInfo(request1, new BizGenericCallback<HotelDetailInfo>() {
+            @Override
+            public void onCompletion(GenericResponseModel<HotelDetailInfo> model) {
+                HotelDetailInfo info = model.body;
+                LogUtil.e(TAG,"hotelGetDetailInfo =" + info.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "hotelGetDetailInfo: " + error.toString());
+            }
+        });
+
+        //"memberid":"1","productaid":"4","productname":"九寨沟喜来登大酒店",
+        // "price":"800","usedate":"2016-10-10","dingnum":"1",
+        // "linkman":"张三","linktel":"15210656332","linkemail":"","suitid":"5","departdate":"2016-10-20"
+        HotelOrderFetch fetch = new HotelOrderFetch("1","4","九寨沟喜来登大酒店","800","2016-10-10","1","张三","15210656332","","5","2016-10-20");
+        hotelBiz.HotelSubmitOrder(fetch, new BizGenericCallback<HotelOrderInfo>() {
+            @Override
+            public void onCompletion(GenericResponseModel<HotelOrderInfo> model) {
+                HotelOrderInfo info = model.body;
+                LogUtil.e(TAG,"HotelSubmitOrder =" + info.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "HotelSubmitOrder: " + error.toString());
             }
         });
     }

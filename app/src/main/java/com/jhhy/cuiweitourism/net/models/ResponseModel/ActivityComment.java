@@ -1,11 +1,12 @@
 package com.jhhy.cuiweitourism.net.models.ResponseModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by jiahe008 on 2016/10/10.
  */
-public class ActivityComment {
+public class ActivityComment implements Serializable{
     public String content;
     public ArrayList<String> pllist;
     public String nickname;

@@ -12,6 +12,7 @@ import com.jhhy.cuiweitourism.net.biz.CarRentActionBiz;
 import com.jhhy.cuiweitourism.net.biz.HomePageActionBiz;
 import com.jhhy.cuiweitourism.net.biz.VisaActionBiz;
 import com.jhhy.cuiweitourism.net.models.FetchModel.ActivityHot;
+import com.jhhy.cuiweitourism.net.models.FetchModel.ActivityOrder;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarModel;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarPriceEstimate;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarRentCity;
@@ -68,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        carBizCallTest();
-        homePageCallTest();
-        visaBizCallTest();
+//        carBizCallTest();
+//        homePageCallTest();
+//        visaBizCallTest();
         activityBizCallTest();
 
     }
@@ -391,5 +392,8 @@ public class MainActivity extends AppCompatActivity {
                 LogUtil.e(TAG, "activitiesHotGetDetailInfo: " + error.toString());
             }
         });
+
+
+        //ActivityOrder order = new ActivityOrder("")
     }
 }

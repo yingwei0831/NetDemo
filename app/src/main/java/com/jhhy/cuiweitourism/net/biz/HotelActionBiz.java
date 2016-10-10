@@ -59,6 +59,6 @@ public class HotelActionBiz extends  BasicActionBiz {
      */
 
     public void hotelGetDetailInfo(){
-
+        String a = "3";
     }
 }

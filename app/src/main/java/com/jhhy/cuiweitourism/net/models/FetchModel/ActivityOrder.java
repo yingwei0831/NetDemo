@@ -11,7 +11,7 @@ public class ActivityOrder  extends  BasicFetchModel{
     // "productname":"****",
     // "lxr":[{"tourername":"王二麻子","cardnumber":"233695898745896597","mobile":"13895878954"},{"tourername":"王三麻子","cardnumber":"233699685748896597","mobile":"13869578954"}]}
 
-    public class Contact{
+   static public class Contact{
         public String tourername;
         public String cardnumber;
         public String  mobile;

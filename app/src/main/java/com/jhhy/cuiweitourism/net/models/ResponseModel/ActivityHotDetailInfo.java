@@ -11,10 +11,84 @@ public class ActivityHotDetailInfo {
     // "days":"5","cftime":"1472515200","cfcity":"20",
     // "feeinclude":"1.往返飞机票\r\n2.餐饮\r\n3.保险\r\n4.导游\r\n5.住宿",
     // "features":"撒哈拉沙漠约形成于250万年前，是世界第二大荒漠（仅次于南极洲），也是世界最大的沙质荒漠。它位于非洲北部，该地区气候条件非常恶劣，是地球上最不适合生物生存的地方之一。其总面积约容得下整个美国本土。“撒哈拉”是阿拉伯语的音译，在阿拉伯语中“撒哈拉”为大沙漠，源自当地游牧民族图阿雷格人的语言，原意即为“大荒漠”。","xlxq":"位于阿特拉斯山脉和地中海以南(约北纬35°线),约北纬14°线(250毫米等雨量线)以北。\r\n撒哈拉沙漠西从大西洋沿岸开始，北部以阿特拉斯山脉和地中海为界，东部直抵红海，南部到达苏丹和尼日尔河河谷交界的萨赫勒——一个半沙漠乾草原的过渡区。\r\n撒哈拉沙漠是世界最大的沙漠，几乎占满非洲北部全部，占全洲总面积的25%。沙漠东西约长4,800公里(3000英里)，南北在1300公里至1900公里(800至1200英里)之间，总面积约9065000平方公里。\r\n横贯非洲大陆北部,东西长达5600公里,南北宽约1600公里，约占非洲总面积32%","xcinfo":"第一天：从北京出发\r\n第二天：到达目的地安排住宿\r\n第三天：开始进军沙漠\r\n第四天:进军沙漠\r\n第五天：返回北京",
-    // "piclist":["http:\/\/www.cwly1118.com\/uploads\/2015\/0909\/6576cb3bfd961a0e13e6cc203b4ce012.jpg"],"comment":{"content":"这个活动很好","pllist":["http:\/\/www.cwly1118.com\/uploads\/pinglun\/2016\/0905\/e5fd08e12911719eb8cee0983dc55392.jpg","http:\/\/www.cwly1118.com\/uploads\/pinglun\/2016\/0905"],
-    // "nickname":"小蜗",
-    // "face":"http:\/\/www.cwly1118.com\/uploads\/member\/11474192836.jpg",
-    // "addtime":null},"ctnum":"1"}
+    // "piclist":["http:\/\/www.cwly1118.com\/uploads\/2015\/0909\/6576cb3bfd961a0e13e6cc203b4ce012.jpg"],
+    // "comment":{"content":"这个活动很好","pllist":["http:\/\/www.cwly1118.com\/uploads\/pinglun\/2016\/0905\/e5fd08e12911719eb8cee0983dc55392.jpg","http:\/\/www.cwly1118.com\/uploads\/pinglun\/2016\/0905"],
+    //                   "nickname":"小蜗",
+    //                    "face":"http:\/\/www.cwly1118.com\/uploads\/member\/11474192836.jpg",
+    //                    "addtime":null
+    //            },
+    // "ctnum":"1"}
+
+    public class ActivityComment {
+        public String content;
+        public ArrayList<String> pllist;
+        public String nickname;
+        public String face;
+        public String addtime;
+
+
+        public ActivityComment(String content, ArrayList<String> pllist, String nickname, String face, String addtime) {
+            this.content = content;
+            this.pllist = pllist;
+            this.nickname = nickname;
+            this.face = face;
+            this.addtime = addtime;
+        }
+
+        public ActivityComment() {
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public ArrayList<String> getPllist() {
+            return pllist;
+        }
+
+        public void setPllist(ArrayList<String> pllist) {
+            this.pllist = pllist;
+        }
+
+        public String getNickname() {
+            return nickname;
+        }
+
+        public void setNickname(String nickname) {
+            this.nickname = nickname;
+        }
+
+        public String getFace() {
+            return face;
+        }
+
+        public void setFace(String face) {
+            this.face = face;
+        }
+
+        public String getAddtime() {
+            return addtime;
+        }
+
+        public void setAddtime(String addtime) {
+            this.addtime = addtime;
+        }
+
+        @Override
+        public String toString() {
+            return "ActivityComment{" +
+                    "content='" + content + '\'' +
+                    ", pllist=" + pllist +
+                    ", nickname='" + nickname + '\'' +
+                    ", face='" + face + '\'' +
+                    ", addtime='" + addtime + '\'' +
+                    '}';
+        }
+    }
 
     public String id;
     public String title;
@@ -24,13 +98,14 @@ public class ActivityHotDetailInfo {
     public String cftime;
     public String cfcity;
     public String feeinclude;
+    public String  features;
     public ArrayList<String> piclist;
-    public String nickname;
-    public String face;
-    public String addtime;
+
+    public ActivityComment comment;
+
     public String ctnum;
 
-    public ActivityHotDetailInfo(String id, String title, String price, String num, String days, String cftime, String cfcity, String feeinclude, ArrayList<String> piclist, String nickname, String face, String addtime, String ctnum) {
+    public ActivityHotDetailInfo(String id, String title, String price, String num, String days, String cftime, String cfcity, String feeinclude, String features, ArrayList<String> piclist, ActivityComment comment, String ctnum) {
         this.id = id;
         this.title = title;
         this.price = price;
@@ -39,10 +114,9 @@ public class ActivityHotDetailInfo {
         this.cftime = cftime;
         this.cfcity = cfcity;
         this.feeinclude = feeinclude;
+        this.features = features;
         this.piclist = piclist;
-        this.nickname = nickname;
-        this.face = face;
-        this.addtime = addtime;
+        this.comment = comment;
         this.ctnum = ctnum;
     }
 
@@ -113,6 +187,14 @@ public class ActivityHotDetailInfo {
         this.feeinclude = feeinclude;
     }
 
+    public String getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(String features) {
+        this.features = features;
+    }
+
     public ArrayList<String> getPiclist() {
         return piclist;
     }
@@ -121,28 +203,12 @@ public class ActivityHotDetailInfo {
         this.piclist = piclist;
     }
 
-    public String getNickname() {
-        return nickname;
+    public ActivityComment getComment() {
+        return comment;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getFace() {
-        return face;
-    }
-
-    public void setFace(String face) {
-        this.face = face;
-    }
-
-    public String getAddtime() {
-        return addtime;
-    }
-
-    public void setAddtime(String addtime) {
-        this.addtime = addtime;
+    public void setComment(ActivityComment comment) {
+        this.comment = comment;
     }
 
     public String getCtnum() {
@@ -164,10 +230,9 @@ public class ActivityHotDetailInfo {
                 ", cftime='" + cftime + '\'' +
                 ", cfcity='" + cfcity + '\'' +
                 ", feeinclude='" + feeinclude + '\'' +
+                ", features='" + features + '\'' +
                 ", piclist=" + piclist +
-                ", nickname='" + nickname + '\'' +
-                ", face='" + face + '\'' +
-                ", addtime='" + addtime + '\'' +
+                ", comment=" + comment.toString() +
                 ", ctnum='" + ctnum + '\'' +
                 '}';
     }

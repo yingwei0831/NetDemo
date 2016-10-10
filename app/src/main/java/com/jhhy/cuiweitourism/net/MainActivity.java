@@ -88,8 +88,8 @@ public class MainActivity extends AppCompatActivity {
 //        visaBizCallTest();
 //        activityBizCallTest();
 //        memberCenterBizCallTest();
-//        forceEndBizCallTest();
-        hotelBizCallTest();
+        forceEndBizCallTest();
+//        hotelBizCallTest();
     }
 
 
@@ -532,7 +532,7 @@ public class MainActivity extends AppCompatActivity {
         HotelActionBiz hotelBiz = new HotelActionBiz();
         //"areaid":"8","starttime":"2016-09-16","endtime":"","keyword":"","page":"1","offset":"10","order":"price desc","price":"","level":""
         HotelListFetchRequest request = new HotelListFetchRequest("8","2016-09-16","","","1","offset","price desc","","");
-        hotelBiz.houtelGetInfoList(request, new BizGenericCallback<ArrayList<HotelListInfo>>() {
+        hotelBiz.hotelGetInfoList(request, new BizGenericCallback<ArrayList<HotelListInfo>>() {
             @Override
             public void onCompletion(GenericResponseModel<ArrayList<HotelListInfo>> model) {
                 ArrayList<HotelListInfo> array = model.body;

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.jhhy.cuiweitourism.net.biz.ActivityActionBiz;
@@ -349,8 +350,6 @@ public class MainActivity extends AppCompatActivity {
          */
 
         ActivityActionBiz activityBiz = new ActivityActionBiz();
-        //{"areaid":"20","order":"addtime desc","day":"5",
-        // "price":"2000,50000","zcfdate":"","page":"1","offset":"10"
         ActivityHot hot = new ActivityHot("20","addtime desc","5","2000,50000","","1","10");
         activityBiz.activitiesHotGetInfo(hot, new BizGenericCallback<ArrayList<ActivityHotInfo>>() {
             @Override
@@ -372,7 +371,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCompletion(GenericResponseModel<ActivityHotDetailInfo> model) {
                 ActivityHotDetailInfo info = model.body;
-                LogUtil.e(TAG,"activitiesHotGetDetailInfo =" + info.toString());
+                String toString = info.toString();
+                LogUtil.e(TAG," activitiesHotGetDetailInfo:" + toString);
             }
 
             @Override

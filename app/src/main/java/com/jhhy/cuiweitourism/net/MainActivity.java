@@ -9,7 +9,9 @@ import android.widget.Toast;
 
 import com.jhhy.cuiweitourism.net.biz.ActivityActionBiz;
 import com.jhhy.cuiweitourism.net.biz.CarRentActionBiz;
+import com.jhhy.cuiweitourism.net.biz.ForeEndActionBiz;
 import com.jhhy.cuiweitourism.net.biz.HomePageActionBiz;
+import com.jhhy.cuiweitourism.net.biz.HotelActionBiz;
 import com.jhhy.cuiweitourism.net.biz.MemberCenterActionBiz;
 import com.jhhy.cuiweitourism.net.biz.VisaActionBiz;
 import com.jhhy.cuiweitourism.net.models.FetchModel.ActivityHot;
@@ -23,9 +25,13 @@ import com.jhhy.cuiweitourism.net.models.FetchModel.CarRentPickLocation1;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarRentPickLocation2;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarSmallOrder;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarSmallOrderCancel;
+import com.jhhy.cuiweitourism.net.models.FetchModel.ForeEndAdvertise;
+import com.jhhy.cuiweitourism.net.models.FetchModel.ForeEndSearch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomAdd;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomList;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustonDetail;
+import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageOfflinePay;
+import com.jhhy.cuiweitourism.net.models.FetchModel.HotelListFetchRequest;
 import com.jhhy.cuiweitourism.net.models.FetchModel.MemberCenterMsg;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotInfo;
@@ -36,9 +42,12 @@ import com.jhhy.cuiweitourism.net.models.ResponseModel.CarRentDetail;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.CarRentOrderResponse;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchError;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchResponseModel;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.ForceEndSearchInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.ForeEndAdvertisingPositionInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.GenericResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HomePageCustomDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HomePageCustomListInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.HotelListInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterMsgInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterRemarkInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.SmallCarOrderResponse;
@@ -77,8 +86,10 @@ public class MainActivity extends AppCompatActivity {
 //        carBizCallTest();
 //        homePageCallTest();
 //        visaBizCallTest();
-        activityBizCallTest();
-        memberCenterBizCallTest();
+//        activityBizCallTest();
+//        memberCenterBizCallTest();
+        forceEndBizCallTest();
+        hotelBizCallTest();
     }
 
 
@@ -359,6 +370,22 @@ public class MainActivity extends AppCompatActivity {
                 LogUtil.e(TAG, " homePageCustomAdd :" + error.toString());
             }
         });
+
+
+        HomePageOfflinePay pay = new HomePageOfflinePay("01743499124334");
+        homePageBiz.homePageOfflinePay(pay, new BizGenericCallback<ArrayList<Object>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<Object>> model) {
+                ArrayList<Object> array = model.body;
+                LogUtil.e(TAG,"homePageOfflinePay =" + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, " homePageOfflinePay :" + error.toString());
+            }
+        });
+
     }
 
 
@@ -368,19 +395,19 @@ public class MainActivity extends AppCompatActivity {
          */
 
         ActivityActionBiz activityBiz = new ActivityActionBiz();
-//        ActivityHot hot = new ActivityHot("20","addtime desc","5","2000,50000","","1","10");
-//        activityBiz.activitiesHotGetInfo(hot, new BizGenericCallback<ArrayList<ActivityHotInfo>>() {
-//            @Override
-//            public void onCompletion(GenericResponseModel<ArrayList<ActivityHotInfo>> model) {
-//                ArrayList<ActivityHotInfo> array = model.body;
-//                LogUtil.e(TAG,"activitiesHotGetInfo =" + array.toString());
-//            }
-//
-//            @Override
-//            public void onError(FetchError error) {
-//                LogUtil.e(TAG, " activitiesHotGetInfo :" + error.toString());
-//            }
-//        });
+        ActivityHot hot = new ActivityHot("20","addtime desc","5","2000,50000","","1","10");
+        activityBiz.activitiesHotGetInfo(hot, new BizGenericCallback<ArrayList<ActivityHotInfo>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<ActivityHotInfo>> model) {
+                ArrayList<ActivityHotInfo> array = model.body;
+                LogUtil.e(TAG,"activitiesHotGetInfo =" + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, " activitiesHotGetInfo :" + error.toString());
+            }
+        });
 
 
         //热门活动详情
@@ -388,15 +415,11 @@ public class MainActivity extends AppCompatActivity {
         activityBiz.activitiesHotGetDetailInfo(detailC, new BizGenericCallback<ActivityHotDetailInfo>() {
             @Override
             public void onCompletion(GenericResponseModel<ActivityHotDetailInfo> model) {
-                Log.e(TAG, "activitiesHotGetDetailInfo--------------------onCompletion--------------------");
                 ActivityHotDetailInfo info = model.body;
-                String toString = info.toString();
-                LogUtil.e(TAG,"activitiesHotGetDetailInfo: " + toString.substring(0,100));
             }
 
             @Override
             public void onError(FetchError error) {
-                Log.e(TAG, "activitiesHotGetDetailInfo--------------------onError--------------------");
                 LogUtil.e(TAG, "activitiesHotGetDetailInfo: " + error.toString());
             }
         });
@@ -461,4 +484,66 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    /*
+     * 前台接口
+     */
+
+    public  void  forceEndBizCallTest(){
+
+        ForeEndActionBiz fbiz = new ForeEndActionBiz();
+//        ForeEndSearch search = new ForeEndSearch("北京");
+//        fbiz.forceEndSearch(search, new BizGenericCallback<ArrayList<ForceEndSearchInfo>>() {
+//            @Override
+//            public void onCompletion(GenericResponseModel<ArrayList<ForceEndSearchInfo>> model) {
+//                ArrayList<ForceEndSearchInfo> array = model.body;
+//                LogUtil.e(TAG,"forceEndSearch =" + array.toString());
+//            }
+//
+//            @Override
+//            public void onError(FetchError error) {
+//                LogUtil.e(TAG, "forceEndSearch: " + error.toString());
+//            }
+//        });
+
+        ForeEndAdvertise ad = new ForeEndAdvertise("","");
+        fbiz.foreEndGetAdvertisingPosition(ad, new BizGenericCallback<ArrayList<ForeEndAdvertisingPositionInfo>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<ForeEndAdvertisingPositionInfo>> model) {
+                ArrayList<ForeEndAdvertisingPositionInfo> array = model.body;
+                LogUtil.e(TAG,"foreEndGetAdvertisingPosition =" + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "foreEndGetAdvertisingPosition: " + error.toString());
+            }
+        });
+    }
+
+
+
+    /*
+     * 酒店
+     */
+
+    public void hotelBizCallTest(){
+
+        HotelActionBiz hotelBiz = new HotelActionBiz();
+        //"areaid":"8","starttime":"2016-09-16","endtime":"","keyword":"","page":"1","offset":"10","order":"price desc","price":"","level":""
+        HotelListFetchRequest request = new HotelListFetchRequest("8","2016-09-16","","","1","offset","price desc","","");
+        hotelBiz.hotelGetInfoList(request, new BizGenericCallback<ArrayList<HotelListInfo>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<HotelListInfo>> model) {
+                ArrayList<HotelListInfo> array = model.body;
+                LogUtil.e(TAG,"houtelGetInfoList =" + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "houtelGetInfoList: " + error.toString());
+            }
+        });
+    }
+
 }

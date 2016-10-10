@@ -1,28 +1,44 @@
-Master : https://github.com/yingwei0831/NetDemo.git
+### 主干地址
+     Master : https://github.com/yingwei0831/NetDemo.git
 
-http://blog.csdn.net/majian_1987/article/details/8119037
+### Json 解析参考
+ 
+    http://blog.csdn.net/majian_1987/article/details/8119037
+
+
+### 接口文档地址
+
+    http://www.cwly1118.com/service.php?m=test
+    
+    
+### Json格式化地址
+	
+	http://tool.oschina.net/codeformat/json
+	
+	   
+### 租车订单接口数组返回类型细节
+    
+    参考文档 Car_Rent_V1.0.pdf  12页开始，14页有样例
+    
+
+### 未写接口
+	
+	活动：热门活动，热门活动详情，活动订单提交
+	
+	会员中心：我的消息，我的点评
+	
+	APP首页为您推荐下方：线下支付
+	
+	前台接口：搜索
+	
+	
+	酒店：全部
+	
+	飞机票：全部
+	
+	火车票：全部
+	
 
 
 
 
-{"head":{"code":"Car_index"},"field":[]}
-
-{"head":{"code":"Car_nexts"},"field":{"carid":"5","days":"2","startaddress":"北京市昌平区史各庄","endaddress":"辽宁省凌源市火车站"}}
-
-{"head":{"code":"Order_carorder"},"field":{"memberid":"6","carid":"7","days":"2","startaddress":"北京市昌平区史各庄","endaddress":"辽宁省凌源市火车站","usetime":"2016-08-30","price":"2500","linkman":"张三","linktel":"15210656332","productname":"金龙客车(55座)"}}
-
-{"head":{"code":"Car_zccity"},"field":{"city":""}}
-
-{"head":{"code":"Car_cartype"},"field":{"cityid":"1","ruletype":"201"}}
-
-{"head":{"code":"Car_jsaddress"},"field":{"cityname":"北京市"}}
-
-{"head":{"code":"Car_jsdizhi"},"field":{"cityname":"北京市","address":"浙江大厦"}}
-
-{"head":{"code":"Car_price"},"field":{"fromlat":"40.081115580237","fromlng":"116.58797959531","arrivelat":"39.96956","arrivelng":"116.40029","ruletype":"201","cityid":"1"}}
-
-{"head":{"code":"Order_xcarorder"},"field":{"memberid":"1","linkman":"张松钠","linktel":"13898698745","rtrule":"201","rttype":"0","rtStartcitycode":"1","rtStartcityname":"北京市","rtstartflat":"40.081115580237","rtstartflng":"116.58797959531","rtstartname":"首都机场","rtstartaddress":"首都机场1号航站楼","RtEndCityCode":"1","RtEndCityName":"北京市","RtEndtlat":"39.96956","RtEndtlng":"116.40029","RtEndName":"浙江大厦","RtEndAddress":"朝阳区北三环中路安贞西里三区26号","RtDepartureTime":"2016-09-16 12:00:00","RtRequireLevel":"100","RtAppTime":"2016-09-9 12:00:00","RtPriceCarCode":"100","RtPriceCarName":"舒适型:大众帕萨特、凯美瑞等","RtPrice":"200","RtStartPrice":"12","RtNormalUnitPrice":"2.9","RtLineType":"JJ"}}
-
-{"head":{"code":"Order_cancelorder"},"field":{"PlatOrderNo":"","OrderNo":"","CancelReason":"","Force":""}}
-
-{"head":{"code":"Order_selectorder"},"field":{"PlatOrderNo":"","OrderNo":""}}

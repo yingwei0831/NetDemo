@@ -6,9 +6,11 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.jhhy.cuiweitourism.net.biz.ActivityActionBiz;
 import com.jhhy.cuiweitourism.net.biz.CarRentActionBiz;
+import com.jhhy.cuiweitourism.net.biz.HomePageActionBiz;
+import com.jhhy.cuiweitourism.net.models.FetchModel.ActivityHot;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarModel;
-import com.jhhy.cuiweitourism.net.models.FetchModel.CarOrderQuery;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarPriceEstimate;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarRentCity;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarRentNextModel;
@@ -17,16 +19,23 @@ import com.jhhy.cuiweitourism.net.models.FetchModel.CarRentPickLocation1;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarRentPickLocation2;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarSmallOrder;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarSmallOrderCancel;
-import com.jhhy.cuiweitourism.net.models.Order;
+import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomAdd;
+import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomList;
+import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustonDetail;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotDetailInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.BasicResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.CarNextResponse;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.CarRentDetail;
-import com.jhhy.cuiweitourism.net.models.ResponseModel.CarRentOrderInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.CarRentOrderResponse;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchError;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchResponseModel;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.GenericResponseModel;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.HomePageCustomDetailInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.HomePageCustomListInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.SmallCarOrderResponse;
 import com.jhhy.cuiweitourism.net.netcallback.BizCallback;
+import com.jhhy.cuiweitourism.net.netcallback.BizGenericCallback;
 import com.jhhy.cuiweitourism.net.utils.Consts;
 import com.jhhy.cuiweitourism.net.utils.LogUtil;
 
@@ -43,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             switch (msg.what) {
                 case Consts.MESSAGE_ORDER_DETAIL:
                     if (msg.arg1 == 1) {
-                        Order order = (Order) msg.obj;
+         //               Order order = (Order) msg.obj;
 //                        LogUtil.e("info", "info = "+order.toString());
                     }
                     break;
@@ -207,24 +216,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCompletion(BasicResponseModel model) {
                 SmallCarOrderResponse  result =(SmallCarOrderResponse)model.body;
+                LogUtil.e(TAG, "carRentSmallCarOrder = " + result.toString());
                 if (null != result){
-                    LogUtil.e(TAG, "carRentSmallCarOrder = " + result.toString());
+
 
 
                     /**********************查询订单*******************************/
-                    CarOrderQuery query = new CarOrderQuery(result.PlatOrderNo,result.OrderNo);
-                    carBiz.carRentOrderQuery(query, new BizCallback() {
-                        @Override
-                        public void onError(FetchError error) {
-                            LogUtil.e(TAG, " carRentOrderQuery :" + error.toString());
-                        }
-
-                        @Override
-                        public void onCompletion(BasicResponseModel model) {
-                            CarRentOrderInfo orderInfo = (CarRentOrderInfo)model.body;
-                            LogUtil.e(TAG, "carRentOrderQuery = " + orderInfo.toString());
-                        }
-                    });
+//                    CarOrderQuery query = new CarOrderQuery(result.PlatOrderNo,result.OrderNo);
+//                    carBiz.carRentOrderQuery(query, new BizCallback() {
+//                        @Override
+//                        public void onError(FetchError error) {
+//                            LogUtil.e(TAG, " carRentOrderQuery :" + error.toString());
+//                        }
+//
+//                        @Override
+//                        public void onCompletion(BasicResponseModel model) {
+//                            CarRentOrderInfo orderInfo = (CarRentOrderInfo)model.body;
+//                            LogUtil.e(TAG, "carRentOrderQuery = " + orderInfo.toString());
+//                        }
+//                    });
                     /*****************************************************/
 
                     /************************取消订单*****************************/
@@ -256,6 +266,120 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+        /**
+         * 签证
+         */
+
+//        VisaActionBiz visBiz = new VisaActionBiz();
+//        visBiz.VisaGetHotCountry(new BizGenericCallback<ArrayList<VisaHotCountryInfo>>() {
+//            @Override
+//            public void onError(FetchError error) {
+//                if (error.localReason != null){
+//                    Toast.makeText(getApplicationContext(), error.localReason, Toast.LENGTH_SHORT).show();
+//                }
+//
+//                LogUtil.e(TAG, " VisaGetHotCountry :" + error.toString());
+//            }
+//
+//            @Override
+//            public void onCompletion(GenericResponseModel<ArrayList<VisaHotCountryInfo>> model) {
+//
+//                ArrayList<VisaHotCountryInfo>  result = model.body;
+//                LogUtil.e(TAG, "VisaGetHotCountry = " + result.toString());
+//            }
+//        });
+
+
+        /**
+         * 首页
+         */
+
+        HomePageActionBiz homePageBiz = new HomePageActionBiz();
+        HomePageCustomList list = new HomePageCustomList("1","10");
+        homePageBiz.houmePageCustomList(list, new BizGenericCallback<ArrayList<HomePageCustomListInfo>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<HomePageCustomListInfo>> model) {
+                ArrayList<HomePageCustomListInfo> array = model.body;
+                LogUtil.e(TAG, "houmePageCustomList = " + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, " houmePageCustomList :" + error.toString());
+            }
+        });
+
+        HomePageCustonDetail detail = new HomePageCustonDetail("1");
+        homePageBiz.homePageCustomDetail(detail, new BizGenericCallback<HomePageCustomDetailInfo>() {
+            @Override
+            public void onCompletion(GenericResponseModel<HomePageCustomDetailInfo> model) {
+                HomePageCustomDetailInfo info = model.body;
+                LogUtil.e(TAG,"homePageCustomDetail =" + info.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, " homePageCustomDetail :" + error.toString());
+            }
+        });
+
+        //"startplace":"北京","dest":"夏威夷","starttime":"2016-8-30","days":"15","adultnum":"2","childnum":"0",
+        // "yuesuan":"20000-50000","hotelrank":"豪华型","content":"备注","contactname":"李先生","phone":"15210656918","email":"A@A.com"
+        HomePageCustomAdd add = new HomePageCustomAdd("北京","夏威夷","2016-8-30","15","2","0","20000-50000","豪华型","备注","李先生","15210656918","A@A.com");
+        homePageBiz.homePageCustomAdd(add, new BizGenericCallback<ArrayList<Object>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<Object>> model) {
+                ArrayList<Object> array = model.body;
+                LogUtil.e(TAG,"homePageCustomAdd =" + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, " homePageCustomAdd :" + error.toString());
+            }
+        });
+
+
+
+        /**
+         * 活动
+         */
+
+        ActivityActionBiz activityBiz = new ActivityActionBiz();
+        //{"areaid":"20","order":"addtime desc","day":"5",
+        // "price":"2000,50000","zcfdate":"","page":"1","offset":"10"
+        ActivityHot hot = new ActivityHot("20","addtime desc","5","2000,50000","","1","10");
+        activityBiz.activitiesHotGetInfo(hot, new BizGenericCallback<ArrayList<ActivityHotInfo>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<ActivityHotInfo>> model) {
+                ArrayList<ActivityHotInfo> array = model.body;
+                LogUtil.e(TAG,"activitiesHotGetInfo =" + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, " activitiesHotGetInfo :" + error.toString());
+            }
+        });
+
+
+
+        HomePageCustonDetail detailC = new HomePageCustonDetail("1");
+        activityBiz.activitiesHotGetDetailInfo(detailC, new BizGenericCallback<ActivityHotDetailInfo>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ActivityHotDetailInfo> model) {
+                ActivityHotDetailInfo info = model.body;
+                LogUtil.e(TAG,"activitiesHotGetDetailInfo =" + info.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, " activitiesHotGetDetailInfo :" + error.toString());
+            }
+        });
 
     }
 }

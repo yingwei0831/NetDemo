@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.jhhy.cuiweitourism.net.biz.ActivityActionBiz;
 import com.jhhy.cuiweitourism.net.biz.CarRentActionBiz;
 import com.jhhy.cuiweitourism.net.biz.HomePageActionBiz;
+import com.jhhy.cuiweitourism.net.biz.MemberCenterActionBiz;
 import com.jhhy.cuiweitourism.net.biz.VisaActionBiz;
 import com.jhhy.cuiweitourism.net.models.FetchModel.ActivityHot;
 import com.jhhy.cuiweitourism.net.models.FetchModel.ActivityOrder;
@@ -25,8 +26,10 @@ import com.jhhy.cuiweitourism.net.models.FetchModel.CarSmallOrderCancel;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomAdd;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomList;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustonDetail;
+import com.jhhy.cuiweitourism.net.models.FetchModel.MemberCenterMsg;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityOrderInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.BasicResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.CarNextResponse;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.CarRentDetail;
@@ -36,6 +39,8 @@ import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.GenericResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HomePageCustomDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HomePageCustomListInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterMsgInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterRemarkInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.SmallCarOrderResponse;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.VisaHotCountryInfo;
 import com.jhhy.cuiweitourism.net.netcallback.BizCallback;
@@ -72,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
 //        carBizCallTest();
 //        homePageCallTest();
 //        visaBizCallTest();
-       activityBizCallTest();
-
+        activityBizCallTest();
+        memberCenterBizCallTest();
     }
 
 
@@ -384,7 +389,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCompletion(GenericResponseModel<ActivityHotDetailInfo> model) {
                 ActivityHotDetailInfo info = model.body;
                 String toString = info.toString();
-                LogUtil.e(TAG,"activitiesHotGetDetailInfo: " + toString);
+                LogUtil.e(TAG,"activitiesHotGetDetailInfo: " + toString.substring(0,100));
             }
 
             @Override
@@ -393,18 +398,64 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        //{"tourername":"王二麻子","cardnumber":"233695898745896597","mobile":"13895878954"},{"tourername":"王三麻子","cardnumber":"233699685748896597","mobile":"13869578954"}
-//        ActivityOrder.Contact contact1 = new ActivityOrder.Contact("王二麻子","233695898745896597","13895878954");
-//        ActivityOrder.Contact contact2 = new ActivityOrder.Contact("王三麻子","233699685748896597","13869578954");
-//        ArrayList<ActivityOrder.Contact> array = new ArrayList<>();
-//        array.add(contact1);
-//        array.add(contact2);
-//        // //{"memberid":"6","hid":"7","usetime":"2016-08-30","price":"2500","dingnum":"1","linkman":"张三","linktel":"15210656332",
-//        // "productname":"****",
-//        // "lxr":[{"tourername":"王二麻子","cardnumber":"233695898745896597","mobile":"13895878954"},{"tourername":"王三麻子","cardnumber":"233699685748896597","mobile":"13869578954"}]}
-//        ActivityOrder order = new ActivityOrder("6","7","2016-08-30","2500","1","张三","15210656332","****",array);
-//        order.code = "Order_activityorer";
-//        LogUtil.e(TAG,"ActivityOrder: " + order.toBizJsonString());
+
+        ActivityOrder.Contact contact1 = new ActivityOrder.Contact("王二麻子","233695898745896597","13895878954");
+        ActivityOrder.Contact contact2 = new ActivityOrder.Contact("王三麻子","233699685748896597","13869578954");
+        ArrayList<ActivityOrder.Contact> array = new ArrayList<>();
+        array.add(contact1);
+        array.add(contact2);
+        ActivityOrder order = new ActivityOrder("6","7","2016-08-30","2500","1","张三","15210656332","****",array);
+
+        activityBiz.activitiesOrderSubmit(order, new BizGenericCallback<ActivityOrderInfo>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ActivityOrderInfo> model) {
+                ActivityOrderInfo info = model.body;
+                LogUtil.e(TAG,"activitiesOrderSubmit =" + info.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "activitiesOrderSubmit: " + error.toString());
+            }
+        });
+
+    }
+
+    /*
+     * 会员中心
+     */
+    public void memberCenterBizCallTest(){
+
+        MemberCenterActionBiz memBiz = new MemberCenterActionBiz();
+
+
+        MemberCenterMsg msg = new MemberCenterMsg("1");
+        memBiz.memberCenterGetMessageInfo(msg, new BizGenericCallback<ArrayList<MemberCenterMsgInfo>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<MemberCenterMsgInfo>> model) {
+                ArrayList<MemberCenterMsgInfo> array = model.body;
+                LogUtil.e(TAG,"memberCenterGetMessageInfo =" + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "memberCenterGetMessageInfo: " + error.toString());
+            }
+        });
+
+        memBiz.memberCenterGetRemarkInfo(msg, new BizGenericCallback<ArrayList<MemberCenterRemarkInfo>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<MemberCenterRemarkInfo>> model) {
+                ArrayList<MemberCenterRemarkInfo> array = model.body;
+                LogUtil.e(TAG,"memberCenterGetRemarkInfo =" + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "memberCenterGetRemarkInfo: " + error.toString());
+            }
+        });
+
 
     }
 }

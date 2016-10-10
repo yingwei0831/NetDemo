@@ -328,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
 
         //"startplace":"北京","dest":"夏威夷","starttime":"2016-8-30","days":"15","adultnum":"2","childnum":"0",
         // "yuesuan":"20000-50000","hotelrank":"豪华型","content":"备注","contactname":"李先生","phone":"15210656918","email":"A@A.com"
-        HomePageCustomAdd add = new HomePageCustomAdd("北京","夏威夷","2016-8-30","15","2","0","20000-50000","豪华型","备注","李先生","15210656918","A@A.com");
+        HomePageCustomAdd add = new HomePageCustomAdd("北京","夏威夷","2016-8-30","15","2","0","20000-50000","豪华型","备注","李先生","15210656919","A@A.com");
         homePageBiz.homePageCustomAdd(add, new BizGenericCallback<ArrayList<Object>>() {
             @Override
             public void onCompletion(GenericResponseModel<ArrayList<Object>> model) {

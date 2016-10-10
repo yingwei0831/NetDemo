@@ -90,10 +90,10 @@ public class MainActivity extends AppCompatActivity {
 //        carBizCallTest();
 //        homePageCallTest();
 //        visaBizCallTest();
-//        activityBizCallTest();
+        activityBizCallTest();
 //        memberCenterBizCallTest();
-        forceEndBizCallTest();
-        hotelBizCallTest();
+//        forceEndBizCallTest();
+//        hotelBizCallTest();
     }
 
 
@@ -420,6 +420,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCompletion(GenericResponseModel<ActivityHotDetailInfo> model) {
                 ActivityHotDetailInfo info = model.body;
+                LogUtil.e(TAG,"activitiesHotGetInfo " );
             }
 
             @Override

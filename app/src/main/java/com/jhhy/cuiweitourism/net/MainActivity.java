@@ -350,21 +350,19 @@ public class MainActivity extends AppCompatActivity {
          */
 
         ActivityActionBiz activityBiz = new ActivityActionBiz();
-        //{"areaid":"20","order":"addtime desc","day":"5",
-        // "price":"2000,50000","zcfdate":"","page":"1","offset":"10"
-//        ActivityHot hot = new ActivityHot("20","addtime desc","5","2000,50000","","1","10");
-//        activityBiz.activitiesHotGetInfo(hot, new BizGenericCallback<ArrayList<ActivityHotInfo>>() {
-//            @Override
-//            public void onCompletion(GenericResponseModel<ArrayList<ActivityHotInfo>> model) {
-//                ArrayList<ActivityHotInfo> array = model.body;
-//                LogUtil.e(TAG,"activitiesHotGetInfo =" + array.toString());
-//            }
-//
-//            @Override
-//            public void onError(FetchError error) {
-//                LogUtil.e(TAG, " activitiesHotGetInfo :" + error.toString());
-//            }
-//        });
+        ActivityHot hot = new ActivityHot("20","addtime desc","5","2000,50000","","1","10");
+        activityBiz.activitiesHotGetInfo(hot, new BizGenericCallback<ArrayList<ActivityHotInfo>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<ActivityHotInfo>> model) {
+                ArrayList<ActivityHotInfo> array = model.body;
+                LogUtil.e(TAG,"activitiesHotGetInfo =" + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, " activitiesHotGetInfo :" + error.toString());
+            }
+        });
 
 
 

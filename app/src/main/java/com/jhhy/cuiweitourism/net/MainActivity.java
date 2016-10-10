@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.jhhy.cuiweitourism.net.biz.ActivityActionBiz;
 import com.jhhy.cuiweitourism.net.biz.CarRentActionBiz;
 import com.jhhy.cuiweitourism.net.biz.HomePageActionBiz;
+import com.jhhy.cuiweitourism.net.biz.VisaActionBiz;
 import com.jhhy.cuiweitourism.net.models.FetchModel.ActivityHot;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarModel;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarPriceEstimate;
@@ -35,6 +36,7 @@ import com.jhhy.cuiweitourism.net.models.ResponseModel.GenericResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HomePageCustomDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HomePageCustomListInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.SmallCarOrderResponse;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.VisaHotCountryInfo;
 import com.jhhy.cuiweitourism.net.netcallback.BizCallback;
 import com.jhhy.cuiweitourism.net.netcallback.BizGenericCallback;
 import com.jhhy.cuiweitourism.net.utils.Consts;
@@ -66,9 +68,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        OrderActionBiz biz = new OrderActionBiz(getApplicationContext(), handler);
-//        biz.getOrderDetail("01585988836818");
+        carBizCallTest();
+        homePageCallTest();
+        visaBizCallTest();
+        activityBizCallTest();
 
+    }
+
+
+
+    public void  carBizCallTest(){
         carBiz = new CarRentActionBiz(getApplicationContext(), handler);
         carBiz.fetchCarRentalServiceDetail(new BizCallback() {
             @Override
@@ -196,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    //{"memberid":"1","linkman":"张松钠","linktel":"13898698745","rtrule":"201",
+        //{"memberid":"1","linkman":"张松钠","linktel":"13898698745","rtrule":"201",
         // "rttype":"0","rtStartcitycode":"1","rtStartcityname":"北京市","rtstartflat":"40.081115580237",
         // "rtstartflng":"116.58797959531","rtstartname":"首都机场","rtstartaddress":"首都机场1号航站楼",
         // "RtEndCityCode":"1","RtEndCityName":"北京市","RtEndtlat":"39.96956","RtEndtlng":"116.40029",
@@ -266,34 +275,35 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
 
-
-
+    public  void visaBizCallTest(){
         /**
          * 签证
          */
 
-//        VisaActionBiz visBiz = new VisaActionBiz();
-//        visBiz.VisaGetHotCountry(new BizGenericCallback<ArrayList<VisaHotCountryInfo>>() {
-//            @Override
-//            public void onError(FetchError error) {
-//                if (error.localReason != null){
-//                    Toast.makeText(getApplicationContext(), error.localReason, Toast.LENGTH_SHORT).show();
-//                }
-//
-//                LogUtil.e(TAG, " VisaGetHotCountry :" + error.toString());
-//            }
-//
-//            @Override
-//            public void onCompletion(GenericResponseModel<ArrayList<VisaHotCountryInfo>> model) {
-//
-//                ArrayList<VisaHotCountryInfo>  result = model.body;
-//                LogUtil.e(TAG, "VisaGetHotCountry = " + result.toString());
-//            }
-//        });
+        VisaActionBiz visBiz = new VisaActionBiz();
+        visBiz.VisaGetHotCountry(new BizGenericCallback<ArrayList<VisaHotCountryInfo>>() {
+            @Override
+            public void onError(FetchError error) {
+                if (error.localReason != null){
+                    Toast.makeText(getApplicationContext(), error.localReason, Toast.LENGTH_SHORT).show();
+                }
 
+                LogUtil.e(TAG, " VisaGetHotCountry :" + error.toString());
+            }
 
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<VisaHotCountryInfo>> model) {
+
+                ArrayList<VisaHotCountryInfo>  result = model.body;
+                LogUtil.e(TAG, "VisaGetHotCountry = " + result.toString());
+            }
+        });
+    }
+
+    public void homePageCallTest(){
         /**
          * 首页
          */
@@ -342,27 +352,28 @@ public class MainActivity extends AppCompatActivity {
                 LogUtil.e(TAG, " homePageCustomAdd :" + error.toString());
             }
         });
+    }
 
 
-
+    public void  activityBizCallTest(){
         /**
          * 活动
          */
 
         ActivityActionBiz activityBiz = new ActivityActionBiz();
-        ActivityHot hot = new ActivityHot("20","addtime desc","5","2000,50000","","1","10");
-        activityBiz.activitiesHotGetInfo(hot, new BizGenericCallback<ArrayList<ActivityHotInfo>>() {
-            @Override
-            public void onCompletion(GenericResponseModel<ArrayList<ActivityHotInfo>> model) {
-                ArrayList<ActivityHotInfo> array = model.body;
-                LogUtil.e(TAG,"activitiesHotGetInfo =" + array.toString());
-            }
-
-            @Override
-            public void onError(FetchError error) {
-                LogUtil.e(TAG, " activitiesHotGetInfo :" + error.toString());
-            }
-        });
+//        ActivityHot hot = new ActivityHot("20","addtime desc","5","2000,50000","","1","10");
+//        activityBiz.activitiesHotGetInfo(hot, new BizGenericCallback<ArrayList<ActivityHotInfo>>() {
+//            @Override
+//            public void onCompletion(GenericResponseModel<ArrayList<ActivityHotInfo>> model) {
+//                ArrayList<ActivityHotInfo> array = model.body;
+//                LogUtil.e(TAG,"activitiesHotGetInfo =" + array.toString());
+//            }
+//
+//            @Override
+//            public void onError(FetchError error) {
+//                LogUtil.e(TAG, " activitiesHotGetInfo :" + error.toString());
+//            }
+//        });
 
 
 
@@ -372,14 +383,13 @@ public class MainActivity extends AppCompatActivity {
             public void onCompletion(GenericResponseModel<ActivityHotDetailInfo> model) {
                 ActivityHotDetailInfo info = model.body;
                 String toString = info.toString();
-                LogUtil.e(TAG," activitiesHotGetDetailInfo:" + toString);
+                LogUtil.e(TAG,"activitiesHotGetDetailInfo: " + toString.substring(0,100));
             }
 
             @Override
             public void onError(FetchError error) {
-                LogUtil.e(TAG, " activitiesHotGetDetailInfo :" + error.toString());
+                LogUtil.e(TAG, "activitiesHotGetDetailInfo: " + error.toString());
             }
         });
-
     }
 }

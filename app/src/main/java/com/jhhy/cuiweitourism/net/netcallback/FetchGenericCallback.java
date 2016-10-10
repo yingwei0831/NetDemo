@@ -28,7 +28,6 @@ public class FetchGenericCallback<T> implements Callback.CommonCallback<String> 
 
     @Override
     public void onSuccess(String result) {
-        LogUtil.e(TAG," " + result);
         try {
             JSONObject resultObj = new JSONObject(result);
             String bodyStr = resultObj.getString("body");

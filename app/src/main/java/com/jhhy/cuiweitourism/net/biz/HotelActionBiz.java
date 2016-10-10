@@ -60,5 +60,19 @@ public class HotelActionBiz extends  BasicActionBiz {
 
     public void hotelGetDetailInfo(){
         String a = "3";
+
+        final FetchGenericResponse fetchResponse = new FetchGenericResponse(null) {
+            @Override
+            public void onCompletion(FetchResponseModel response) {
+                ArrayList<HotelListInfo> array = parseJsonToObjectArray(response,HotelListInfo.class);
+                GenericResponseModel returnModel = new GenericResponseModel(response.head,array);
+                this.bizCallback.onCompletion(returnModel);
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                this.bizCallback.onError(error);
+            }
+        };
     }
 }

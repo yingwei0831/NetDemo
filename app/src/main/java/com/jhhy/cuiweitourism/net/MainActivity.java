@@ -393,7 +393,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        //{"tourername":"王二麻子","cardnumber":"233695898745896597","mobile":"13895878954"},{"tourername":"王三麻子","cardnumber":"233699685748896597","mobile":"13869578954"}
+        ActivityOrder.Contact contact1 = new ActivityOrder.Contact();
         //ActivityOrder order = new ActivityOrder("")
     }
 }

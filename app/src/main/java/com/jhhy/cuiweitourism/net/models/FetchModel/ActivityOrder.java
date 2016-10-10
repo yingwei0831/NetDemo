@@ -15,6 +15,39 @@ public class ActivityOrder  extends  BasicFetchModel{
         public String tourername;
         public String cardnumber;
         public String  mobile;
+
+        public Contact(String tourername, String cardnumber, String mobile) {
+            this.tourername = tourername;
+            this.cardnumber = cardnumber;
+            this.mobile = mobile;
+        }
+
+        public Contact() {
+        }
+
+        public String getTourername() {
+            return tourername;
+        }
+
+        public void setTourername(String tourername) {
+            this.tourername = tourername;
+        }
+
+        public String getCardnumber() {
+            return cardnumber;
+        }
+
+        public void setCardnumber(String cardnumber) {
+            this.cardnumber = cardnumber;
+        }
+
+        public String getMobile() {
+            return mobile;
+        }
+
+        public void setMobile(String mobile) {
+            this.mobile = mobile;
+        }
     }
 
     public String memberid;

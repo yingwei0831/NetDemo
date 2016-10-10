@@ -276,6 +276,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        homePageCallTest();
     }
 
 
@@ -382,13 +383,16 @@ public class MainActivity extends AppCompatActivity {
         activityBiz.activitiesHotGetDetailInfo(detailC, new BizGenericCallback<ActivityHotDetailInfo>() {
             @Override
             public void onCompletion(GenericResponseModel<ActivityHotDetailInfo> model) {
+                Log.e(TAG, "activitiesHotGetDetailInfo--------------------onCompletion--------------------");
                 ActivityHotDetailInfo info = model.body;
                 String toString = info.toString();
+                Log.e(TAG, "" + toString);
                 LogUtil.e(TAG,"activitiesHotGetDetailInfo: " + toString);
             }
 
             @Override
             public void onError(FetchError error) {
+                Log.e(TAG, "activitiesHotGetDetailInfo--------------------onError--------------------");
                 LogUtil.e(TAG, "activitiesHotGetDetailInfo: " + error.toString());
             }
         });

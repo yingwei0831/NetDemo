@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 //        carBizCallTest();
 //        homePageCallTest();
 //        visaBizCallTest();
-        activityBizCallTest();
+       activityBizCallTest();
 
     }
 
@@ -384,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCompletion(GenericResponseModel<ActivityHotDetailInfo> model) {
                 ActivityHotDetailInfo info = model.body;
                 String toString = info.toString();
-                LogUtil.e(TAG,"activitiesHotGetDetailInfo: " + toString.substring(0,100));
+                LogUtil.e(TAG,"activitiesHotGetDetailInfo: " + toString);
             }
 
             @Override
@@ -393,18 +393,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //{"tourername":"王二麻子","cardnumber":"233695898745896597","mobile":"13895878954"},{"tourername":"王三麻子","cardnumber":"233699685748896597","mobile":"13869578954"}
-        ActivityOrder.Contact contact1 = new ActivityOrder.Contact("王二麻子","233695898745896597","13895878954");
-        ActivityOrder.Contact contact2 = new ActivityOrder.Contact("王三麻子","233699685748896597","13869578954");
-        ArrayList<ActivityOrder.Contact> array = new ArrayList<>();
-        array.add(contact1);
-        array.add(contact2);
-        // //{"memberid":"6","hid":"7","usetime":"2016-08-30","price":"2500","dingnum":"1","linkman":"张三","linktel":"15210656332",
-        // "productname":"****",
-        // "lxr":[{"tourername":"王二麻子","cardnumber":"233695898745896597","mobile":"13895878954"},{"tourername":"王三麻子","cardnumber":"233699685748896597","mobile":"13869578954"}]}
-        ActivityOrder order = new ActivityOrder("6","7","2016-08-30","2500","1","张三","15210656332","****",array);
-
-        
+//        //{"tourername":"王二麻子","cardnumber":"233695898745896597","mobile":"13895878954"},{"tourername":"王三麻子","cardnumber":"233699685748896597","mobile":"13869578954"}
+//        ActivityOrder.Contact contact1 = new ActivityOrder.Contact("王二麻子","233695898745896597","13895878954");
+//        ActivityOrder.Contact contact2 = new ActivityOrder.Contact("王三麻子","233699685748896597","13869578954");
+//        ArrayList<ActivityOrder.Contact> array = new ArrayList<>();
+//        array.add(contact1);
+//        array.add(contact2);
+//        // //{"memberid":"6","hid":"7","usetime":"2016-08-30","price":"2500","dingnum":"1","linkman":"张三","linktel":"15210656332",
+//        // "productname":"****",
+//        // "lxr":[{"tourername":"王二麻子","cardnumber":"233695898745896597","mobile":"13895878954"},{"tourername":"王三麻子","cardnumber":"233699685748896597","mobile":"13869578954"}]}
+//        ActivityOrder order = new ActivityOrder("6","7","2016-08-30","2500","1","张三","15210656332","****",array);
+//        order.code = "Order_activityorer";
+//        LogUtil.e(TAG,"ActivityOrder: " + order.toBizJsonString());
 
     }
 }

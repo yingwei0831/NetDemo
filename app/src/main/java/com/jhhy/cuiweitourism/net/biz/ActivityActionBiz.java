@@ -4,10 +4,12 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.jhhy.cuiweitourism.net.models.FetchModel.ActivityHot;
+import com.jhhy.cuiweitourism.net.models.FetchModel.ActivityOrder;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomList;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustonDetail;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityOrderInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchError;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.GenericResponseModel;
@@ -73,5 +75,28 @@ public class ActivityActionBiz extends BasicActionBiz {
             }
         };
         HttpUtils.executeXutils(detail, new FetchGenericCallback(fetchResponse));
+    }
+
+
+    /**
+     * 活动订单提交
+     */
+
+    public void activitiesOrderSubmit(ActivityOrder order, BizGenericCallback<ActivityOrderInfo> callback){
+        order.code = "Order_activityorer";
+        final FetchGenericResponse<ActivityOrderInfo> fetchResponse = new FetchGenericResponse<ActivityOrderInfo>(callback) {
+            @Override
+            public void onCompletion(FetchResponseModel response) {
+                ActivityOrderInfo info = parseJsonToObject(response,ActivityOrderInfo.class);
+                GenericResponseModel<ActivityOrderInfo> returnModel = new GenericResponseModel<>(response.head,info);
+                this.bizCallback.onCompletion(returnModel);
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                this.bizCallback.onError(error);
+            }
+        };
+        HttpUtils.executeXutils(order, new FetchGenericCallback(fetchResponse));
     }
 }

@@ -376,7 +376,7 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
 
-
+        //热门活动详情
         HomePageCustonDetail detailC = new HomePageCustonDetail("1");
         activityBiz.activitiesHotGetDetailInfo(detailC, new BizGenericCallback<ActivityHotDetailInfo>() {
             @Override

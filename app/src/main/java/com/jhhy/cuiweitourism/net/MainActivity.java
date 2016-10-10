@@ -281,6 +281,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        homePageCallTest();
     }
 
 
@@ -313,7 +314,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 首页
          */
-
+        //个性定制列表
         HomePageActionBiz homePageBiz = new HomePageActionBiz();
         HomePageCustomList list = new HomePageCustomList("1","10");
         homePageBiz.houmePageCustomList(list, new BizGenericCallback<ArrayList<HomePageCustomListInfo>>() {
@@ -387,6 +388,7 @@ public class MainActivity extends AppCompatActivity {
         activityBiz.activitiesHotGetDetailInfo(detailC, new BizGenericCallback<ActivityHotDetailInfo>() {
             @Override
             public void onCompletion(GenericResponseModel<ActivityHotDetailInfo> model) {
+                Log.e(TAG, "activitiesHotGetDetailInfo--------------------onCompletion--------------------");
                 ActivityHotDetailInfo info = model.body;
                 String toString = info.toString();
                 LogUtil.e(TAG,"activitiesHotGetDetailInfo: " + toString.substring(0,100));
@@ -394,6 +396,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onError(FetchError error) {
+                Log.e(TAG, "activitiesHotGetDetailInfo--------------------onError--------------------");
                 LogUtil.e(TAG, "activitiesHotGetDetailInfo: " + error.toString());
             }
         });

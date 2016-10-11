@@ -355,7 +355,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCompletion(GenericResponseModel<HomePageCustomDetailInfo> model) {
                 HomePageCustomDetailInfo info = model.body;
-                //LogUtil.e(TAG,"homePageCustomDetail =" + info.toString());
+                LogUtil.e(TAG,"homePageCustomDetail =" + info.toString());
             }
 
             @Override

@@ -1,9 +1,11 @@
 package com.jhhy.cuiweitourism.net.models.ResponseModel;
 
+import java.io.Serializable;
+
 /**
  * Created by zhangguang on 16/10/10.
  */
-public class ActivityOrderInfo {
+public class ActivityOrderInfo implements Serializable{
     //{"productname":"****","ordersn":"202801481745198","price":"2500","usetime":"2016-08-30"}
 
     public String productname;

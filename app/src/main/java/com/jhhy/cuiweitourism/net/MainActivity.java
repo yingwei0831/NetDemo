@@ -330,6 +330,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //个性定制详情
         HomePageCustonDetail detail = new HomePageCustonDetail("1");
         homePageBiz.homePageCustomDetail(detail, new BizGenericCallback<HomePageCustomDetailInfo>() {
             @Override
@@ -344,6 +345,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //个性定制页
         //"startplace":"北京","dest":"夏威夷","starttime":"2016-8-30","days":"15","adultnum":"2","childnum":"0",
         // "yuesuan":"20000-50000","hotelrank":"豪华型","content":"备注","contactname":"李先生","phone":"15210656918","email":"A@A.com"
         HomePageCustomAdd add = new HomePageCustomAdd("北京","夏威夷","2016-8-30","15","2","0","20000-50000","豪华型","备注","李先生","15210656919","A@A.com");
@@ -391,7 +393,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "activitiesHotGetDetailInfo--------------------onCompletion--------------------");
                 ActivityHotDetailInfo info = model.body;
                 String toString = info.toString();
-                LogUtil.e(TAG,"activitiesHotGetDetailInfo: " + toString.substring(0,100));
+                LogUtil.e(TAG,"activitiesHotGetDetailInfo: " + toString.substring(0, 200));
             }
 
             @Override
@@ -401,13 +403,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        //热门订单提交
         ActivityOrder.Contact contact1 = new ActivityOrder.Contact("王二麻子","233695898745896597","13895878954");
         ActivityOrder.Contact contact2 = new ActivityOrder.Contact("王三麻子","233699685748896597","13869578954");
         ArrayList<ActivityOrder.Contact> array = new ArrayList<>();
         array.add(contact1);
         array.add(contact2);
-        ActivityOrder order = new ActivityOrder("6","7","2016-08-30","2500","1","张三","15210656332","****",array);
+        ActivityOrder order = new ActivityOrder("11","7","2016-08-30","2500","1","张三","15210656332","****",array);
 
         activityBiz.activitiesOrderSubmit(order, new BizGenericCallback<ActivityOrderInfo>() {
             @Override

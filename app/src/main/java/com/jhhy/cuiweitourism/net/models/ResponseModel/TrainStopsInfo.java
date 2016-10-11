@@ -117,4 +117,11 @@ public class TrainStopsInfo {
     public void setStopsInfo(ArrayList<Stop> stopsInfo) {
         this.stopsInfo = stopsInfo;
     }
+
+    @Override
+    public String toString() {
+        return "TrainStopsInfo{" +
+                "stopsInfo=" + stopsInfo +
+                '}';
+    }
 }

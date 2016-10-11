@@ -36,6 +36,8 @@ import com.jhhy.cuiweitourism.net.models.FetchModel.HotelDetailRequest;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HotelListFetchRequest;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HotelOrderFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.MemberCenterMsg;
+import com.jhhy.cuiweitourism.net.models.FetchModel.TrainStationFetch;
+import com.jhhy.cuiweitourism.net.models.FetchModel.TrainStopsFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.TrainTicketFetch;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotInfo;
@@ -57,6 +59,9 @@ import com.jhhy.cuiweitourism.net.models.ResponseModel.HotelOrderInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterMsgInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterRemarkInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.SmallCarOrderResponse;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.TrainStationInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.TrainStopsInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.TrainTicketDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.VisaHotCountryInfo;
 import com.jhhy.cuiweitourism.net.netcallback.BizCallback;
 import com.jhhy.cuiweitourism.net.netcallback.BizGenericCallback;
@@ -90,14 +95,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 //        carBizCallTest();
-        homePageCallTest();
+//        homePageCallTest();
 //        visaBizCallTest();
 //        activityBizCallTest();
 //        memberCenterBizCallTest();
 //        forceEndBizCallTest();
 //        hotelBizCallTest();
 //
-//        TrainTicketCallTest();
+        TrainTicketCallTest();
     }
 
 
@@ -603,16 +608,47 @@ public class MainActivity extends AppCompatActivity {
 
         //火车票
         TrainTicketFetch fetch = new TrainTicketFetch("北京","上海","2016-10-30","","","","");
-        trainBiz.trainTicketInfo(fetch, new BizGenericCallback<ArrayList<ArrayList<String>>>() {
+        trainBiz.trainTicketInfo(fetch, new BizGenericCallback<ArrayList<TrainTicketDetailInfo>>() {
             @Override
-            public void onCompletion(GenericResponseModel<ArrayList<ArrayList<String>>> model) {
-                ArrayList<ArrayList<String >> array = model.body;
+            public void onCompletion(GenericResponseModel<ArrayList<TrainTicketDetailInfo>> model) {
+                ArrayList<TrainTicketDetailInfo> array = model.body;
                 LogUtil.e(TAG,"trainTicketInfo =" + array.toString());
             }
 
             @Override
             public void onError(FetchError error) {
                 LogUtil.e(TAG, "trainTicketInfo: " + error.toString());
+            }
+        });
+
+
+        //火车站
+        TrainStationFetch stationFetch = new TrainStationFetch();
+        trainBiz.trainStationInfo(stationFetch, new BizGenericCallback<TrainStationInfo>() {
+            @Override
+            public void onCompletion(GenericResponseModel<TrainStationInfo> model) {
+                TrainStationInfo info = model.body;
+                LogUtil.e(TAG,"trainStationInfo =" + info.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "trainStationInfo: " + error.toString());
+            }
+        });
+
+        //火车途经站
+        TrainStopsFetch stopsFetch = new TrainStopsFetch("G105");
+        trainBiz.trainViaStations(stopsFetch, new BizGenericCallback<TrainStopsInfo>() {
+            @Override
+            public void onCompletion(GenericResponseModel<TrainStopsInfo> model) {
+                TrainStopsInfo info = model.body;
+                LogUtil.e(TAG,"trainViaStations =" + info.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "trainViaStations: " + error.toString());
             }
         });
     }

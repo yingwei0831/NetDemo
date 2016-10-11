@@ -13,6 +13,7 @@ import com.jhhy.cuiweitourism.net.biz.ForeEndActionBiz;
 import com.jhhy.cuiweitourism.net.biz.HomePageActionBiz;
 import com.jhhy.cuiweitourism.net.biz.HotelActionBiz;
 import com.jhhy.cuiweitourism.net.biz.MemberCenterActionBiz;
+import com.jhhy.cuiweitourism.net.biz.TrainTicketActionBiz;
 import com.jhhy.cuiweitourism.net.biz.VisaActionBiz;
 import com.jhhy.cuiweitourism.net.models.FetchModel.ActivityHot;
 import com.jhhy.cuiweitourism.net.models.FetchModel.ActivityOrder;
@@ -35,6 +36,7 @@ import com.jhhy.cuiweitourism.net.models.FetchModel.HotelDetailRequest;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HotelListFetchRequest;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HotelOrderFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.MemberCenterMsg;
+import com.jhhy.cuiweitourism.net.models.FetchModel.TrainTicketFetch;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityOrderInfo;
@@ -88,12 +90,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 //        carBizCallTest();
-//        homePageCallTest();
+        homePageCallTest();
 //        visaBizCallTest();
-        activityBizCallTest();
+//        activityBizCallTest();
 //        memberCenterBizCallTest();
 //        forceEndBizCallTest();
 //        hotelBizCallTest();
+//
+//        TrainTicketCallTest();
     }
 
 
@@ -351,7 +355,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCompletion(GenericResponseModel<HomePageCustomDetailInfo> model) {
                 HomePageCustomDetailInfo info = model.body;
-                LogUtil.e(TAG,"homePageCustomDetail =" + info.toString());
+                //LogUtil.e(TAG,"homePageCustomDetail =" + info.toString());
             }
 
             @Override
@@ -461,7 +465,7 @@ public class MainActivity extends AppCompatActivity {
 
         MemberCenterActionBiz memBiz = new MemberCenterActionBiz();
 
-
+        //我的消息
         MemberCenterMsg msg = new MemberCenterMsg("1");
         memBiz.memberCenterGetMessageInfo(msg, new BizGenericCallback<ArrayList<MemberCenterMsgInfo>>() {
             @Override
@@ -476,6 +480,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //我的点评
         memBiz.memberCenterGetRemarkInfo(msg, new BizGenericCallback<ArrayList<MemberCenterRemarkInfo>>() {
             @Override
             public void onCompletion(GenericResponseModel<ArrayList<MemberCenterRemarkInfo>> model) {
@@ -499,20 +504,22 @@ public class MainActivity extends AppCompatActivity {
     public  void  forceEndBizCallTest(){
 
         ForeEndActionBiz fbiz = new ForeEndActionBiz();
-//        ForeEndSearch search = new ForeEndSearch("北京");
-//        fbiz.forceEndSearch(search, new BizGenericCallback<ArrayList<ForceEndSearchInfo>>() {
-//            @Override
-//            public void onCompletion(GenericResponseModel<ArrayList<ForceEndSearchInfo>> model) {
-//                ArrayList<ForceEndSearchInfo> array = model.body;
-//                LogUtil.e(TAG,"forceEndSearch =" + array.toString());
-//            }
-//
-//            @Override
-//            public void onError(FetchError error) {
-//                LogUtil.e(TAG, "forceEndSearch: " + error.toString());
-//            }
-//        });
+        ForeEndSearch search = new ForeEndSearch("北京");
+        //搜索
+        fbiz.forceEndSearch(search, new BizGenericCallback<ArrayList<ForceEndSearchInfo>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<ForceEndSearchInfo>> model) {
+                ArrayList<ForceEndSearchInfo> array = model.body;
+                LogUtil.e(TAG,"forceEndSearch =" + array.toString());
+            }
 
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "forceEndSearch: " + error.toString());
+            }
+        });
+
+        //广告位
         ForeEndAdvertise ad = new ForeEndAdvertise("","");
         fbiz.foreEndGetAdvertisingPosition(ad, new BizGenericCallback<ArrayList<ForeEndAdvertisingPositionInfo>>() {
             @Override
@@ -538,6 +545,7 @@ public class MainActivity extends AppCompatActivity {
 
         HotelActionBiz hotelBiz = new HotelActionBiz();
         //"areaid":"8","starttime":"2016-09-16","endtime":"","keyword":"","page":"1","offset":"10","order":"price desc","price":"","level":""
+        //获取酒店列表
         HotelListFetchRequest request = new HotelListFetchRequest("8","2016-09-16","","","1","offset","price desc","","");
         hotelBiz.hotelGetInfoList(request, new BizGenericCallback<ArrayList<HotelListInfo>>() {
             @Override
@@ -553,6 +561,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         HotelDetailRequest request1 = new HotelDetailRequest("4");
+        //获取酒店详情
         hotelBiz.hotelGetDetailInfo(request1, new BizGenericCallback<HotelDetailInfo>() {
             @Override
             public void onCompletion(GenericResponseModel<HotelDetailInfo> model) {
@@ -569,6 +578,7 @@ public class MainActivity extends AppCompatActivity {
         //"memberid":"1","productaid":"4","productname":"九寨沟喜来登大酒店",
         // "price":"800","usedate":"2016-10-10","dingnum":"1",
         // "linkman":"张三","linktel":"15210656332","linkemail":"","suitid":"5","departdate":"2016-10-20"
+        //提交酒店订单
         HotelOrderFetch fetch = new HotelOrderFetch("1","4","九寨沟喜来登大酒店","800","2016-10-10","1","张三","15210656332","","5","2016-10-20");
         hotelBiz.HotelSubmitOrder(fetch, new BizGenericCallback<HotelOrderInfo>() {
             @Override
@@ -580,6 +590,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onError(FetchError error) {
                 LogUtil.e(TAG, "HotelSubmitOrder: " + error.toString());
+            }
+        });
+    }
+
+    /**
+     *  火车票 相关
+     */
+
+    public void TrainTicketCallTest(){
+        TrainTicketActionBiz trainBiz = new TrainTicketActionBiz();
+
+        //火车票
+        TrainTicketFetch fetch = new TrainTicketFetch("北京","上海","2016-10-30","","","","");
+        trainBiz.trainTicketInfo(fetch, new BizGenericCallback<ArrayList<ArrayList<String>>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<ArrayList<String>>> model) {
+                ArrayList<ArrayList<String >> array = model.body;
+                LogUtil.e(TAG,"trainTicketInfo =" + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "trainTicketInfo: " + error.toString());
             }
         });
     }

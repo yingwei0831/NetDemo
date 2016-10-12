@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             switch (msg.what) {
                 case Consts.MESSAGE_ORDER_DETAIL:
                     if (msg.arg1 == 1) {
-         //               Order order = (Order) msg.obj;
+                        //               Order order = (Order) msg.obj;
 //                        LogUtil.e("info", "info = "+order.toString());
                     }
                     break;

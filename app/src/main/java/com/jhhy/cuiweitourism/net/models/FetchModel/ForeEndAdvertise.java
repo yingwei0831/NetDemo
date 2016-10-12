@@ -7,11 +7,9 @@ public class ForeEndAdvertise extends  BasicFetchModel {
 
     //"mark":"index"
     public String mark;
-    public String index;
 
-    public ForeEndAdvertise(String mark, String index) {
+    public ForeEndAdvertise(String mark) {
         this.mark = mark;
-        this.index = index;
     }
 
     public ForeEndAdvertise() {
@@ -23,13 +21,5 @@ public class ForeEndAdvertise extends  BasicFetchModel {
 
     public void setMark(String mark) {
         this.mark = mark;
-    }
-
-    public String getIndex() {
-        return index;
-    }
-
-    public void setIndex(String index) {
-        this.index = index;
     }
 }

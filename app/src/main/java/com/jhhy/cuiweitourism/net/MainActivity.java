@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jhhy.cuiweitourism.net.biz.ActivityActionBiz;
 import com.jhhy.cuiweitourism.net.biz.CarRentActionBiz;
 import com.jhhy.cuiweitourism.net.biz.ForeEndActionBiz;
@@ -27,6 +29,7 @@ import com.jhhy.cuiweitourism.net.models.FetchModel.CarRentPickLocation2;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarSmallOrder;
 import com.jhhy.cuiweitourism.net.models.FetchModel.CarSmallOrderCancel;
 import com.jhhy.cuiweitourism.net.models.FetchModel.ForeEndAdvertise;
+import com.jhhy.cuiweitourism.net.models.FetchModel.ForeEndMoreCommentFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.ForeEndSearch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomAdd;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HomePageCustomList;
@@ -50,6 +53,7 @@ import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchError;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ForceEndSearchInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ForeEndAdvertisingPositionInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.ForeEndMoreCommentInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.GenericResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HomePageCustomDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HomePageCustomListInfo;
@@ -68,8 +72,11 @@ import com.jhhy.cuiweitourism.net.netcallback.BizGenericCallback;
 import com.jhhy.cuiweitourism.net.utils.Consts;
 import com.jhhy.cuiweitourism.net.utils.LogUtil;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     public static String TAG = "XXXX";
@@ -99,10 +106,21 @@ public class MainActivity extends AppCompatActivity {
 //        visaBizCallTest();
 //        activityBizCallTest();
 //        memberCenterBizCallTest();
-//        forceEndBizCallTest();
+        forceEndBizCallTest();
 //        hotelBizCallTest();
 //
-        TrainTicketCallTest();
+//        TrainTicketCallTest();
+
+
+
+
+//        final Gson gson = new Gson();
+//        String string = "{\"P\":{\"PEK\":[\"北京首都\",\"北京首都国际机场\",\"北京\",\"BJS\"],\"BKK\":[\"曼谷\",\"曼谷素万那普机场\",\"曼谷\",\"BKK\"],\"PVG\":[\"上海浦东\",\"上海浦东机场\",\"上海\",\"SHA\"],\"NKG\":[\"南京\",\"南京禄口机场\",\"南京\",\"NKG\"],\"KMG\":[\"昆明\",\"昆明长水国际机场\",\"昆明\",\"KMG\"],\"LZO\":[\"泸州\",\"泸州蓝田机场\",\"泸州\",\"LZO\"],\"SHA\":[\"上海虹桥\",\"上海虹桥机场\",\"上海\",\"SHA\"],\"HKT\":[\"普吉岛\",\"普吉机场\",\"普吉岛\",\"HKT\"],\"HGH\":[\"杭州\",\"杭州萧山机场\",\"杭州\",\"HGH\"],\"FOC\":[\"福州\",\"福州长乐机场\",\"福州\",\"FOC\"],\"XMN\":[\"厦门\",\"厦门高崎国际机场\",\"厦门\",\"XMN\"],\"ZAT\":[\"昭通\",\"昭通机场\",\"昭通\",\"ZAT\"],\"CAN\":[\"广州\",\"广州白云机场\",\"广州\",\"CAN\"],\"SZX\":[\"深圳\",\"深圳宝安机场\",\"深圳\",\"SZX\"],\"MFM\":[\"澳门\",\"澳门机场\",\"澳门\",\"MFM\"],\"HKG\":[\"香港\",\"香港赤鱲角国际机场\",\"香港\",\"HKG\"],\"ICN\":[\"首尔(仁川)\",\"首尔仁川机场\",\"首尔\",\"SEL\"],\"GMP\":[\"首尔(金浦)\",\"首尔金浦国际机场\",\"首尔\",\"SEL\"],\"SWA\":[\"揭阳\",\"揭阳潮汕国际机场\",\"揭阳\\/潮州\\/汕头\",\"SWA\"],\"KUL\":[\"吉隆坡\",\"吉隆坡机场\",\"吉隆坡\",\"KUL\"],\"TPE\":[\"台北(桃园)\",\"台北桃园国际机场\",\"台北\",\"TPE\"],\"SIN\":[\"新加坡\",\"樟宜机场\",\"新加坡\",\"SIN\"]},\"A\":{\"HU\":[\"海南航空\",\"海航\",\"1\"],\"TG\":[\"泰国国际航空公司\",\"泰国国航\",\"0\"],\"CA\":[\"国际航空\",\"国航\",\"1\"],\"MU\":[\"东方航空\",\"东航\",\"1\"],\"FM\":[\"上海航空\",\"上航\",\"1\"],\"PG\":[\"\",\"\",\"0\"],\"MF\":[\"厦门航空\",\"厦航\",\"1\"],\"CZ\":[\"南方航空\",\"南航\",\"1\"],\"NX\":[\"澳门航空\",\"澳门航空\",\"0\"],\"HX\":[\"香港航空\",\"香港航空\",\"0\"],\"CX\":[\"国泰航空公司\",\"国泰\",\"0\"],\"KE\":[\"大韩航空公司\",\"大韩航空\",\"0\"],\"ZH\":[\"深圳航空\",\"深航\",\"0\"],\"OZ\":[\"韩亚航空\",\"韩亚\",\"0\"],\"MH\":[\"马来西亚航空公司\",\"马航\",\"0\"],\"BR\":[\"台湾长荣航空公司\",\"长荣航空\",\"0\"],\"SQ\":[\"新加坡航空公司\",\"新加坡航空\",\"0\"],\"KQ\":[\"肯尼亚航空\",\"肯尼亚航空\",\"0\"]}}";
+//        final Type type = new TypeToken<Map<String, Object>>() {}.getType();
+//        final Map<Object, Object> map2 = gson.fromJson(string, type);
+//        for (final Map.Entry<Object, Object> entry : map2.entrySet()) {
+//            System.out.println(entry.getKey() + " : " + entry.getValue());
+//        }
     }
 
 
@@ -538,6 +556,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onError(FetchError error) {
                 LogUtil.e(TAG, "foreEndGetAdvertisingPosition: " + error.toString());
+            }
+        });
+
+        //更多评论
+        ForeEndMoreCommentFetch fetch = new ForeEndMoreCommentFetch("1","12");
+        fbiz.foreEndGetMoreCommentInfo(fetch, new BizGenericCallback<ArrayList<ForeEndMoreCommentInfo>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<ForeEndMoreCommentInfo>> model) {
+                ArrayList<ForeEndMoreCommentInfo> array = model.body;
+                LogUtil.e(TAG,"foreEndGetMoreCommentInfo =" + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "foreEndGetMoreCommentInfo: " + error.toString());
             }
         });
     }

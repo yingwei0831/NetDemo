@@ -615,7 +615,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //"memberid":"1","productaid":"4","productname":"九寨沟喜来登大酒店",
+        //"memberid":"11","productaid":"4","productname":"九寨沟喜来登大酒店",
         // "price":"800","usedate":"2016-10-10","dingnum":"1",
         // "linkman":"张三","linktel":"15210656332","linkemail":"","suitid":"5","departdate":"2016-10-20"
         //提交酒店订单

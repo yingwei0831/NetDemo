@@ -60,6 +60,7 @@ import com.jhhy.cuiweitourism.net.models.ResponseModel.HomePageCustomListInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HotelDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HotelListInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HotelOrderInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.HoutelPropertiesInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterMsgInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterRemarkInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.SmallCarOrderResponse;
@@ -106,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
 //        visaBizCallTest();
 //        activityBizCallTest();
 //        memberCenterBizCallTest();
-        forceEndBizCallTest();
-//        hotelBizCallTest();
+//        forceEndBizCallTest();
+        hotelBizCallTest();
 //
 //        TrainTicketCallTest();
 
@@ -582,6 +583,23 @@ public class MainActivity extends AppCompatActivity {
     public void hotelBizCallTest(){
 
         HotelActionBiz hotelBiz = new HotelActionBiz();
+
+
+        // 获取酒店属性列表
+        hotelBiz.hotelGetPropertiesList(new BizGenericCallback<ArrayList<HoutelPropertiesInfo>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<HoutelPropertiesInfo>> model) {
+                ArrayList<HoutelPropertiesInfo> array = model.body;
+                LogUtil.e(TAG,"hotelGetPropertiesList =" + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "hotelGetPropertiesList: " + error.toString());
+            }
+        });
+
+
         //"areaid":"8","starttime":"2016-09-16","endtime":"","keyword":"","page":"1","offset":"10","order":"price desc","price":"","level":""
         //获取酒店列表
         HotelListFetchRequest request = new HotelListFetchRequest("8","2016-09-16","","","1","offset","price desc","","");

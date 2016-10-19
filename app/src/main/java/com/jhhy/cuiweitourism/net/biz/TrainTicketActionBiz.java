@@ -13,6 +13,7 @@ import com.jhhy.cuiweitourism.net.models.ResponseModel.GenericResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.TrainStationInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.TrainStopsInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.TrainTicketDetailInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.TrainTicketOrderInfo;
 import com.jhhy.cuiweitourism.net.netcallback.BizGenericCallback;
 import com.jhhy.cuiweitourism.net.netcallback.FetchGenericCallback;
 import com.jhhy.cuiweitourism.net.netcallback.FetchGenericResponse;
@@ -152,16 +153,16 @@ public class TrainTicketActionBiz extends BasicActionBiz {
     }
 
     /**
-     *  火车票订单提交
+     *  火车票订单提交,下单到平台
      */
 
-    public void trainTicketOrderSubmit(TrainTicketOrderFetch fetch, BizGenericCallback<ArrayList<Object>> callback){
-        fetch.code = "Order_trainorder";
-        FetchGenericResponse<ArrayList<Object>> fetchResponse = new FetchGenericResponse<ArrayList<Object>>(callback) {
+    public void trainTicketOrderSubmit(TrainTicketOrderFetch fetch, BizGenericCallback<TrainTicketOrderInfo> callback){
+        fetch.code = "Train_traininto";
+        FetchGenericResponse<TrainTicketOrderInfo> fetchResponse = new FetchGenericResponse<TrainTicketOrderInfo>(callback) {
             @Override
             public void onCompletion(FetchResponseModel response) {
-                ArrayList<Object> array = parseJsonToObjectArray(response,Object.class);
-                GenericResponseModel<ArrayList<Object>> returnModel = new GenericResponseModel<ArrayList<Object>>(response.head,array);
+                TrainTicketOrderInfo info = parseJsonToObject(response,TrainTicketOrderInfo.class);
+                GenericResponseModel<TrainTicketOrderInfo> returnModel = new GenericResponseModel<TrainTicketOrderInfo>(response.head,info);
                 this.bizCallback.onCompletion(returnModel);
             }
 

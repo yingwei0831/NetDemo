@@ -676,7 +676,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //火车站
-        TrainStationFetch stationFetch = new TrainStationFetch();
+        //TrainStationFetch stationFetch = new TrainStationFetch();
         trainBiz.trainStationInfo(new BizGenericCallback<ArrayList<TrainStationInfo>>() {
             @Override
             public void onCompletion(GenericResponseModel<ArrayList<TrainStationInfo>> model) {

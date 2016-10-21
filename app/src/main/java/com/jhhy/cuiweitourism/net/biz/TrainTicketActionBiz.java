@@ -123,7 +123,7 @@ public class TrainTicketActionBiz extends BasicActionBiz {
                     itemStation.name = station.get(1);
                     itemStation.fullPY = station.get(2);
                     itemStation.shortPY = station.get(3);
-                    itemStation.isHot = Boolean.parseBoolean(station.get(4));
+                    itemStation.isHot = Integer.parseInt(station.get(4)) > 0 ? true : false;
                     itemStation.type = 0;
                     statios.add(itemStation);
                 }

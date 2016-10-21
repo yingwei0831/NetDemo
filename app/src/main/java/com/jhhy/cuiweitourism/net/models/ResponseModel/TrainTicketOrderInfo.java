@@ -1,23 +1,24 @@
 package com.jhhy.cuiweitourism.net.models.ResponseModel;
 
-import java.io.Serializable;
-
 /**
- * Created by birney1 on 16/10/10.
+ * Created by zhangguang on 16/10/19.
  */
-public class HotelOrderInfo implements Serializable{
+public class TrainTicketOrderInfo {
+//    "ordersn": "80572124935477",
+//    "productname": "购买火车票_200",
+//    "price": "243"
 
     public String ordersn;
     public String productname;
-    public String  price;
+    public String price;
 
-    public HotelOrderInfo(String ordersn, String productname, String price) {
+    public TrainTicketOrderInfo(String ordersn, String productname, String price) {
         this.ordersn = ordersn;
         this.productname = productname;
         this.price = price;
     }
 
-    public HotelOrderInfo() {
+    public TrainTicketOrderInfo() {
     }
 
     public String getOrdersn() {
@@ -46,7 +47,7 @@ public class HotelOrderInfo implements Serializable{
 
     @Override
     public String toString() {
-        return "HotelOrderInfo{" +
+        return "TrainTicketOrderInfo{" +
                 "ordersn='" + ordersn + '\'' +
                 ", productname='" + productname + '\'' +
                 ", price='" + price + '\'' +

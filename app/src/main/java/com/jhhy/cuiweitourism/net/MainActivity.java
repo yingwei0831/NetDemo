@@ -677,10 +677,10 @@ public class MainActivity extends AppCompatActivity {
 
         //火车站
         TrainStationFetch stationFetch = new TrainStationFetch();
-        trainBiz.trainStationInfo(stationFetch, new BizGenericCallback<TrainStationInfo>() {
+        trainBiz.trainStationInfo(new BizGenericCallback<ArrayList<TrainStationInfo>>() {
             @Override
-            public void onCompletion(GenericResponseModel<TrainStationInfo> model) {
-                TrainStationInfo info = model.body;
+            public void onCompletion(GenericResponseModel<ArrayList<TrainStationInfo>> model) {
+                ArrayList<TrainStationInfo> info = model.body;
                 LogUtil.e(TAG,"trainStationInfo =" + info.toString());
             }
 

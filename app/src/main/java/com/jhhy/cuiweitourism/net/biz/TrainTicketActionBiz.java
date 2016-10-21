@@ -3,6 +3,7 @@ package com.jhhy.cuiweitourism.net.biz;
 import android.content.Context;
 import android.os.Handler;
 
+import com.jhhy.cuiweitourism.net.models.FetchModel.NullArrayFetchModel;
 import com.jhhy.cuiweitourism.net.models.FetchModel.TrainStationFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.TrainStopsFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.TrainTicketFetch;
@@ -108,14 +109,26 @@ public class TrainTicketActionBiz extends BasicActionBiz {
      *  火车站
      */
 
-    public void trainStationInfo(TrainStationFetch fetch, BizGenericCallback<TrainStationInfo> callback){
-        fetch.code = "Train_station";
-        FetchGenericResponse<TrainStationInfo> fetchResponse = new FetchGenericResponse<TrainStationInfo>(callback) {
+    public void trainStationInfo(BizGenericCallback<ArrayList<TrainStationInfo>> callback){
+        NullArrayFetchModel fetchModel = new NullArrayFetchModel();
+        fetchModel.code = "Train_station";
+        FetchGenericResponse<ArrayList<TrainStationInfo>> fetchResponse = new FetchGenericResponse<ArrayList<TrainStationInfo>>(callback) {
             @Override
             public void onCompletion(FetchResponseModel response) {
                 ArrayList<ArrayList<String>> array = parseJsonTotwoLevelArray(response);
-                TrainStationInfo stationInfo = new TrainStationInfo(array);
-                GenericResponseModel<TrainStationInfo> model = new GenericResponseModel<>(response.head,stationInfo);
+                ArrayList<TrainStationInfo> statios = new ArrayList<TrainStationInfo>();
+                for (ArrayList<String> station : array){
+                    TrainStationInfo itemStation = new TrainStationInfo();
+                    itemStation.id = station.get(0);
+                    itemStation.name = station.get(1);
+                    itemStation.fullPY = station.get(2);
+                    itemStation.shortPY = station.get(3);
+                    itemStation.isHot = Boolean.parseBoolean(station.get(4));
+                    itemStation.type = 0;
+                    statios.add(itemStation);
+                }
+
+                GenericResponseModel<ArrayList<TrainStationInfo>> model = new GenericResponseModel<>(response.head,statios);
                 this.bizCallback.onCompletion(model);
             }
 
@@ -125,7 +138,7 @@ public class TrainTicketActionBiz extends BasicActionBiz {
             }
         };
 
-        HttpUtils.executeXutils(fetch,new FetchGenericCallback<>(fetchResponse));
+        HttpUtils.executeXutils(fetchModel,new FetchGenericCallback<>(fetchResponse));
     }
 
     /**

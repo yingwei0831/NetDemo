@@ -42,6 +42,7 @@ import com.jhhy.cuiweitourism.net.models.FetchModel.MemberCenterMsg;
 import com.jhhy.cuiweitourism.net.models.FetchModel.TrainStationFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.TrainStopsFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.TrainTicketFetch;
+import com.jhhy.cuiweitourism.net.models.FetchModel.TrainTicketOrderFetch;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityOrderInfo;
@@ -60,12 +61,14 @@ import com.jhhy.cuiweitourism.net.models.ResponseModel.HomePageCustomListInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HotelDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HotelListInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HotelOrderInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.HoutelPropertiesInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterMsgInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterRemarkInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.SmallCarOrderResponse;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.TrainStationInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.TrainStopsInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.TrainTicketDetailInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.TrainTicketOrderInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.VisaHotCountryInfo;
 import com.jhhy.cuiweitourism.net.netcallback.BizCallback;
 import com.jhhy.cuiweitourism.net.netcallback.BizGenericCallback;
@@ -106,10 +109,10 @@ public class MainActivity extends AppCompatActivity {
 //        visaBizCallTest();
 //        activityBizCallTest();
 //        memberCenterBizCallTest();
-        forceEndBizCallTest();
+//        forceEndBizCallTest();
 //        hotelBizCallTest();
 //
-//        TrainTicketCallTest();
+        TrainTicketCallTest();
 
 
 
@@ -582,6 +585,23 @@ public class MainActivity extends AppCompatActivity {
     public void hotelBizCallTest(){
 
         HotelActionBiz hotelBiz = new HotelActionBiz();
+
+
+        // 获取酒店属性列表
+        hotelBiz.hotelGetPropertiesList(new BizGenericCallback<ArrayList<HoutelPropertiesInfo>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<HoutelPropertiesInfo>> model) {
+                ArrayList<HoutelPropertiesInfo> array = model.body;
+                LogUtil.e(TAG,"hotelGetPropertiesList =" + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "hotelGetPropertiesList: " + error.toString());
+            }
+        });
+
+
         //"areaid":"8","starttime":"2016-09-16","endtime":"","keyword":"","page":"1","offset":"10","order":"price desc","price":"","level":""
         //获取酒店列表
         HotelListFetchRequest request = new HotelListFetchRequest("8","2016-09-16","","","1","offset","price desc","","");
@@ -656,11 +676,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         //火车站
-        TrainStationFetch stationFetch = new TrainStationFetch();
-        trainBiz.trainStationInfo(stationFetch, new BizGenericCallback<TrainStationInfo>() {
+        //TrainStationFetch stationFetch = new TrainStationFetch();
+        trainBiz.trainStationInfo(new BizGenericCallback<ArrayList<TrainStationInfo>>() {
             @Override
-            public void onCompletion(GenericResponseModel<TrainStationInfo> model) {
-                TrainStationInfo info = model.body;
+            public void onCompletion(GenericResponseModel<ArrayList<TrainStationInfo>> model) {
+                ArrayList<TrainStationInfo> info = model.body;
                 LogUtil.e(TAG,"trainStationInfo =" + info.toString());
             }
 
@@ -682,6 +702,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onError(FetchError error) {
                 LogUtil.e(TAG, "trainViaStations: " + error.toString());
+            }
+        });
+
+
+        //火车票订单提交,下单到平台
+
+        TrainTicketOrderFetch.TicketInfo ticketInfo1 = new TrainTicketOrderFetch.TicketInfo("人1","2","211382198608262687","0","6","121.50");
+        TrainTicketOrderFetch.TicketInfo ticketInfo2 = new TrainTicketOrderFetch.TicketInfo("人2","2","211382198608262698","0","6","121.50");
+        ArrayList<TrainTicketOrderFetch.TicketInfo> array = new ArrayList<TrainTicketOrderFetch.TicketInfo>();
+        array.add(ticketInfo1);
+        array.add(ticketInfo2);
+
+        TrainTicketOrderFetch ticketOrderFetch = new TrainTicketOrderFetch("","","","北京","凌源","2257","2016-09-30","12:20","2016-09-30","21:11",array,"6","243");
+        trainBiz.trainTicketOrderSubmit(ticketOrderFetch, new BizGenericCallback<TrainTicketOrderInfo>() {
+            @Override
+            public void onCompletion(GenericResponseModel<TrainTicketOrderInfo> model) {
+                TrainTicketOrderInfo info = model.body;
+                LogUtil.e(TAG,"trainTicketOrderSubmit =" + info.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "trainTicketOrderSubmit: " + error.toString());
             }
         });
     }

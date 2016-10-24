@@ -3,10 +3,12 @@ package com.jhhy.cuiweitourism.net.biz;
 import android.content.Context;
 import android.os.Handler;
 
+import com.jhhy.cuiweitourism.net.models.FetchModel.PlanTicketCityFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.PlanTicketInfoForHomeRequest;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchError;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.GenericResponseModel;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.PlanTicketCityInfo;
 import com.jhhy.cuiweitourism.net.netcallback.BizGenericCallback;
 import com.jhhy.cuiweitourism.net.netcallback.FetchGenericCallback;
 import com.jhhy.cuiweitourism.net.netcallback.FetchGenericResponse;
@@ -25,6 +27,27 @@ public class PlaneTicketActionBiz extends BasicActionBiz {
     }
 
     public PlaneTicketActionBiz(){
+    }
+
+    /**
+     * 飞机出发城市、到达城市
+     */
+    public void getPlaneTicketCityInfo(PlanTicketCityFetch request, BizGenericCallback<ArrayList<PlanTicketCityInfo>> callback){
+        request.code = "Plane_flyarea";
+        FetchGenericResponse<ArrayList<PlanTicketCityInfo>> fetchGenericResponse = new FetchGenericResponse<ArrayList<PlanTicketCityInfo>>(callback) {
+            @Override
+            public void onCompletion(FetchResponseModel response) {
+                ArrayList<PlanTicketCityInfo> array = parseJsonToObjectArray(response,PlanTicketCityInfo.class);
+                GenericResponseModel<ArrayList<PlanTicketCityInfo>> returnModel = new GenericResponseModel<ArrayList<PlanTicketCityInfo>>(response.head,array);
+                this.bizCallback.onCompletion(returnModel);
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                this.bizCallback.onError(error);
+            }
+        };
+        HttpUtils.executeXutils(request,new FetchGenericCallback<>(fetchGenericResponse));
     }
 
     /**

@@ -1,12 +1,15 @@
 package com.jhhy.cuiweitourism.net.models.ResponseModel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by zhangguang on 16/10/11.
  */
-public class TrainStationInfo implements Serializable{
+public class TrainStationInfo implements Serializable, Parcelable {
 
     public String id; // 车站序号
     public String name; //车站名
@@ -85,5 +88,42 @@ public class TrainStationInfo implements Serializable{
                 ", isHot=" + isHot +
                 ", type=" + type +
                 '}';
+    }
+
+
+    public static final Parcelable.Creator<TrainStationInfo> CREATOR = new Creator<TrainStationInfo>() {
+        @Override
+        public TrainStationInfo createFromParcel(Parcel in) {
+            return new TrainStationInfo(in);
+        }
+
+        @Override
+        public TrainStationInfo[] newArray(int size) {
+            return new TrainStationInfo[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(name);
+        parcel.writeString(fullPY);
+        parcel.writeString(shortPY);
+        parcel.writeByte((byte) (isHot ? 1 : 0));
+        parcel.writeInt(type);
+    }
+
+    private TrainStationInfo(Parcel in){
+        id = in.readString();
+        name = in.readString();
+        fullPY = in.readString();
+        shortPY = in.readString();
+        isHot = in.readByte() != 0;
+        type = in.readInt();
     }
 }

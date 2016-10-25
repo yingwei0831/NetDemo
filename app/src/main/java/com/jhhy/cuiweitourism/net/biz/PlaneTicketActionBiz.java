@@ -9,13 +9,13 @@ import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchError;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.GenericResponseModel;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.PlanTicketCityInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.PlaneTicketInfoOfChina;
 import com.jhhy.cuiweitourism.net.netcallback.BizGenericCallback;
 import com.jhhy.cuiweitourism.net.netcallback.FetchGenericCallback;
 import com.jhhy.cuiweitourism.net.netcallback.FetchGenericResponse;
 import com.jhhy.cuiweitourism.net.netcallback.HttpUtils;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Created by birney on 2016-10-10.
@@ -54,13 +54,13 @@ public class PlaneTicketActionBiz extends BasicActionBiz {
      *  国内机票
      */
 
-    public void planeTicketInfoOfHome(PlanTicketInfoForHomeRequest request, BizGenericCallback<ArrayList<Object>> callback) {
+    public void planeTicketInfoInChina(PlanTicketInfoForHomeRequest request, BizGenericCallback<PlaneTicketInfoOfChina> callback) {
         request.code = "Fly_index";
-        FetchGenericResponse fetchResponse = new FetchGenericResponse(callback) {
+        FetchGenericResponse<PlaneTicketInfoOfChina> fetchResponse = new FetchGenericResponse<PlaneTicketInfoOfChina>(callback) {
             @Override
             public void onCompletion(FetchResponseModel response) {
-                ArrayList<Object> array = parseJsonToObjectArray(response, Object.class);
-                GenericResponseModel returnModel = new GenericResponseModel(response.head, array);
+                PlaneTicketInfoOfChina info = parseJsonToObject(response, PlaneTicketInfoOfChina.class);
+                GenericResponseModel<PlaneTicketInfoOfChina> returnModel = new GenericResponseModel<PlaneTicketInfoOfChina>(response.head, info);
                 this.bizCallback.onCompletion(returnModel);
             }
 

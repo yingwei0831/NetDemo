@@ -469,19 +469,23 @@ public class HanziToPinyin {
 
     public PinYinCollection getPinYin(String input) {
         ArrayList<HanziToPinyin.Token> tokens = HanziToPinyin.getInstance().get(input);
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sbFull = new StringBuilder();
+        StringBuilder sbShort = new StringBuilder();
         if (tokens != null && tokens.size() > 0) {
             for (HanziToPinyin.Token token : tokens) {
                 if (token.type == HanziToPinyin.Token.PINYIN) {
-                    sb.append(token.target);
+                    sbFull.append(token.target);
+                    sbShort.append(token.target.charAt(0));
                 } else {
-                    sb.append(token.source);
+                    sbFull.append(token.source);
+                    sbShort.append(token.source.charAt(0));
                 }
             }
         }
         PinYinCollection collection = new PinYinCollection();
-        collection.headChar = sb.toString().charAt(0);
-        collection.fullPY = sb.toString();
+        collection.headChar = sbFull.toString().charAt(0);
+        collection.fullPY = sbFull.toString();
+        collection.shortPY = sbShort.toString();
 
         return collection;
         //return sb.toString();

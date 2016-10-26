@@ -15,6 +15,7 @@ import com.jhhy.cuiweitourism.net.biz.ForeEndActionBiz;
 import com.jhhy.cuiweitourism.net.biz.HomePageActionBiz;
 import com.jhhy.cuiweitourism.net.biz.HotelActionBiz;
 import com.jhhy.cuiweitourism.net.biz.MemberCenterActionBiz;
+import com.jhhy.cuiweitourism.net.biz.PlaneTicketActionBiz;
 import com.jhhy.cuiweitourism.net.biz.TrainTicketActionBiz;
 import com.jhhy.cuiweitourism.net.biz.VisaActionBiz;
 import com.jhhy.cuiweitourism.net.models.FetchModel.ActivityHot;
@@ -39,6 +40,8 @@ import com.jhhy.cuiweitourism.net.models.FetchModel.HotelDetailRequest;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HotelListFetchRequest;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HotelOrderFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.MemberCenterMsg;
+import com.jhhy.cuiweitourism.net.models.FetchModel.PlanTicketCityFetch;
+import com.jhhy.cuiweitourism.net.models.FetchModel.PlanTicketInfoForHomeRequest;
 import com.jhhy.cuiweitourism.net.models.FetchModel.TrainStationFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.TrainStopsFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.TrainTicketFetch;
@@ -64,6 +67,8 @@ import com.jhhy.cuiweitourism.net.models.ResponseModel.HotelOrderInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HoutelPropertiesInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterMsgInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterRemarkInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.PlanTicketCityInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.PlaneTicketInfoOfChina;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.SmallCarOrderResponse;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.TrainStationInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.TrainStopsInfo;
@@ -112,8 +117,8 @@ public class MainActivity extends AppCompatActivity {
 //        forceEndBizCallTest();
 //        hotelBizCallTest();
 //
-        TrainTicketCallTest();
-
+//        TrainTicketCallTest();
+          planBizCallTest();
 
 
 
@@ -728,5 +733,44 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     *  火车票 相关
+     */
+    public void planBizCallTest(){
+        //飞机出发城市、到达城市
+        PlaneTicketActionBiz planeBiz = new PlaneTicketActionBiz();
+
+        PlanTicketCityFetch fetch = new PlanTicketCityFetch("D");
+        planeBiz.getPlaneTicketCityInfo(fetch, new BizGenericCallback<ArrayList<PlanTicketCityInfo>>() {
+            @Override
+            public void onCompletion(GenericResponseModel<ArrayList<PlanTicketCityInfo>> model) {
+                ArrayList<PlanTicketCityInfo> array = model.body;
+                LogUtil.e(TAG,"getPlaneTicketCityInfo =" + array.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "getPlaneTicketCityInfo: " + error.toString());
+            }
+        });
+
+
+        PlanTicketInfoForHomeRequest request = new PlanTicketInfoForHomeRequest("PEK","DLC","2016-11-17");
+        planeBiz.planeTicketInfoInChina(request, new BizGenericCallback<PlaneTicketInfoOfChina>() {
+            @Override
+            public void onCompletion(GenericResponseModel<PlaneTicketInfoOfChina> model) {
+                PlaneTicketInfoOfChina info = model.body;
+                LogUtil.e(TAG,"planeTicketInfoInChina =" + info.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "planeTicketInfoInChina: " + error.toString());
+            }
+        });
+
+    }
+
 
 }

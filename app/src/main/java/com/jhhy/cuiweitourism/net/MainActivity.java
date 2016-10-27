@@ -772,7 +772,7 @@ public class MainActivity extends AppCompatActivity {
         planeBiz.planeTicketInfoOfInternational(intrnationRequest, new BizGenericCallback<PlaneTicketInternationalInfo>() {
             @Override
             public void onCompletion(GenericResponseModel<PlaneTicketInternationalInfo> model) {
-                PlaneTicketInternationalInfo inf0 = model.body;
+                PlaneTicketInternationalInfo info = model.body;
                 LogUtil.e(TAG,"planeTicketInfoOfInternational " + info.toString());
             }
 

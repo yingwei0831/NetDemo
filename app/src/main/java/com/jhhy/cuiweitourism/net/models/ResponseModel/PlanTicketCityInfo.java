@@ -1,14 +1,16 @@
 package com.jhhy.cuiweitourism.net.models.ResponseModel;
 
+import java.io.Serializable;
+
 /**
  * Created by birney on 2016-10-24.
  */
-public class PlanTicketCityInfo {
+public class PlanTicketCityInfo implements Serializable {
 //    "id": "1",
-//            "code": "PEK",
-//            "name": "北京",
-//            "airportname": "北京首都国际机场",
-//            "isdomc": "D"
+//    "code": "PEK",
+//    "name": "北京",
+//    "airportname": "北京首都国际机场",
+//    "isdomc": "D"
 
     public String  id;
     public String  code;

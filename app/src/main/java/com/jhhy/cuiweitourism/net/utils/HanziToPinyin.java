@@ -462,8 +462,8 @@ public class HanziToPinyin {
      */
 
     public  static  class PinYinCollection{
-        public String fullPY; //车站名全拼
-        public String shortPY; //车站名简拼
+        public String fullPY; //全拼
+        public String shortPY; //简拼
         public char headChar;//
     }
 

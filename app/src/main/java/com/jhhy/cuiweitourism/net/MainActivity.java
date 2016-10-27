@@ -4,10 +4,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jhhy.cuiweitourism.net.biz.ActivityActionBiz;
 import com.jhhy.cuiweitourism.net.biz.CarRentActionBiz;
@@ -40,9 +38,9 @@ import com.jhhy.cuiweitourism.net.models.FetchModel.HotelDetailRequest;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HotelListFetchRequest;
 import com.jhhy.cuiweitourism.net.models.FetchModel.HotelOrderFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.MemberCenterMsg;
-import com.jhhy.cuiweitourism.net.models.FetchModel.PlanTicketCityFetch;
-import com.jhhy.cuiweitourism.net.models.FetchModel.PlanTicketInfoForHomeRequest;
-import com.jhhy.cuiweitourism.net.models.FetchModel.TrainStationFetch;
+import com.jhhy.cuiweitourism.net.models.FetchModel.PlaneTicketCityFetch;
+import com.jhhy.cuiweitourism.net.models.FetchModel.PlaneTicketInfoForChinalRequest;
+import com.jhhy.cuiweitourism.net.models.FetchModel.PlaneTicketInfoInternationalRequest;
 import com.jhhy.cuiweitourism.net.models.FetchModel.TrainStopsFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.TrainTicketFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.TrainTicketOrderFetch;
@@ -67,8 +65,9 @@ import com.jhhy.cuiweitourism.net.models.ResponseModel.HotelOrderInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.HoutelPropertiesInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterMsgInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.MemberCenterRemarkInfo;
-import com.jhhy.cuiweitourism.net.models.ResponseModel.PlanTicketCityInfo;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.PlaneTicketCityInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.PlaneTicketInfoOfChina;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.PlaneTicketInternationalInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.SmallCarOrderResponse;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.TrainStationInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.TrainStopsInfo;
@@ -82,7 +81,6 @@ import com.jhhy.cuiweitourism.net.utils.LogUtil;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -118,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 //        hotelBizCallTest();
 //
 //        TrainTicketCallTest();
-          planBizCallTest();
+          planeBizCallTest();
 
 
 
@@ -735,17 +733,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *  火车票 相关
+     *   机票 相关
      */
-    public void planBizCallTest(){
+    public void planeBizCallTest(){
         //飞机出发城市、到达城市
         PlaneTicketActionBiz planeBiz = new PlaneTicketActionBiz();
 
-        PlanTicketCityFetch fetch = new PlanTicketCityFetch("D");
-        planeBiz.getPlaneTicketCityInfo(fetch, new BizGenericCallback<ArrayList<PlanTicketCityInfo>>() {
+        PlaneTicketCityFetch fetch = new PlaneTicketCityFetch("D");
+        planeBiz.getPlaneTicketCityInfo(fetch, new BizGenericCallback<ArrayList<PlaneTicketCityInfo>>() {
             @Override
-            public void onCompletion(GenericResponseModel<ArrayList<PlanTicketCityInfo>> model) {
-                ArrayList<PlanTicketCityInfo> array = model.body;
+            public void onCompletion(GenericResponseModel<ArrayList<PlaneTicketCityInfo>> model) {
+                ArrayList<PlaneTicketCityInfo> array = model.body;
                 LogUtil.e(TAG,"getPlaneTicketCityInfo =" + array.toString());
             }
 
@@ -755,8 +753,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        PlanTicketInfoForHomeRequest request = new PlanTicketInfoForHomeRequest("PEK","DLC","2016-11-17");
+        // 国内机票
+        PlaneTicketInfoForChinalRequest request = new PlaneTicketInfoForChinalRequest("PEK","DLC","2016-10-28");
         planeBiz.planeTicketInfoInChina(request, new BizGenericCallback<PlaneTicketInfoOfChina>() {
             @Override
             public void onCompletion(GenericResponseModel<PlaneTicketInfoOfChina> model) {
@@ -767,6 +765,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onError(FetchError error) {
                 LogUtil.e(TAG, "planeTicketInfoInChina: " + error.toString());
+            }
+        });
+
+        PlaneTicketInfoInternationalRequest intrnationRequest = new PlaneTicketInfoInternationalRequest("OW","PEK","BKK","2016-11-17","2016-11-17","A","");
+        planeBiz.planeTicketInfoOfInternational(intrnationRequest, new BizGenericCallback<PlaneTicketInternationalInfo>() {
+            @Override
+            public void onCompletion(GenericResponseModel<PlaneTicketInternationalInfo> model) {
+                PlaneTicketInternationalInfo inf0 = model.body;
+                LogUtil.e(TAG,"planeTicketInfoOfInternational " + info.toString());
+            }
+
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, "planeTicketInfoOfInternational " + error.toString());
             }
         });
 

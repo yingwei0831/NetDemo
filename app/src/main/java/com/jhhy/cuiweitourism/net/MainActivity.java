@@ -44,6 +44,7 @@ import com.jhhy.cuiweitourism.net.models.FetchModel.PlaneTicketInfoInternational
 import com.jhhy.cuiweitourism.net.models.FetchModel.TrainStopsFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.TrainTicketFetch;
 import com.jhhy.cuiweitourism.net.models.FetchModel.TrainTicketOrderFetch;
+import com.jhhy.cuiweitourism.net.models.FetchModel.VisaHotCountry;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotDetailInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityHotInfo;
 import com.jhhy.cuiweitourism.net.models.ResponseModel.ActivityOrderInfo;
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 //        hotelBizCallTest();
 //
 //        TrainTicketCallTest();
-          planeBizCallTest();
+//        planeBizCallTest();
 
 
 
@@ -127,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
 //        for (final Map.Entry<Object, Object> entry : map2.entrySet()) {
 //            System.out.println(entry.getKey() + " : " + entry.getValue());
 //        }
+
+
     }
 
 
@@ -335,9 +338,8 @@ public class MainActivity extends AppCompatActivity {
 
     public  void visaBizCallTest(){
         /**
-         * 签证
+         * 签证 {"head":{"code":"Visa_getvisacountry"},"field":{"IsHot":"N","DeltaCode":"","PltType":"A"}}
          */
-
         VisaActionBiz visBiz = new VisaActionBiz();
         visBiz.VisaGetHotCountry(new BizGenericCallback<ArrayList<VisaHotCountryInfo>>() {
             @Override
@@ -345,13 +347,11 @@ public class MainActivity extends AppCompatActivity {
                 if (error.localReason != null){
                     Toast.makeText(getApplicationContext(), error.localReason, Toast.LENGTH_SHORT).show();
                 }
-
                 LogUtil.e(TAG, " VisaGetHotCountry :" + error.toString());
             }
 
             @Override
             public void onCompletion(GenericResponseModel<ArrayList<VisaHotCountryInfo>> model) {
-
                 ArrayList<VisaHotCountryInfo>  result = model.body;
                 LogUtil.e(TAG, "VisaGetHotCountry = " + result.toString());
             }
@@ -524,7 +524,6 @@ public class MainActivity extends AppCompatActivity {
                 LogUtil.e(TAG, "memberCenterGetRemarkInfo: " + error.toString());
             }
         });
-
 
     }
 

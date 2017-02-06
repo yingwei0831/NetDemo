@@ -20,7 +20,7 @@ public class FetchGenericCallback<T> implements Callback.CommonCallback<String> 
 
     protected FetchGenericResponse<T> response;
 
-    private static final String TAG = "FetchCallBack";
+    private static final String TAG = "FetchGenericCallback";
 
     public  FetchGenericCallback(FetchGenericResponse<T> response){
         this.response = response;

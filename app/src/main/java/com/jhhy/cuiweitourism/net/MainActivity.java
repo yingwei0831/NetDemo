@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
@@ -79,13 +80,16 @@ import com.jhhy.cuiweitourism.net.netcallback.BizCallback;
 import com.jhhy.cuiweitourism.net.netcallback.BizGenericCallback;
 import com.jhhy.cuiweitourism.net.utils.Consts;
 import com.jhhy.cuiweitourism.net.utils.LogUtil;
+import com.yingwei.net.biz.LoginBiz;
+import com.yingwei.net.model.RequestModel.LoginRequest;
+import com.yingwei.net.model.ResponseModel.LoginResponse;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static String TAG = "XXXX";
     private  CarRentActionBiz carBiz = null;
     Handler handler = new Handler() {
@@ -107,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        findViewById(R.id.btn_again).setOnClickListener(this);
 //        carBizCallTest();
 //        homePageCallTest();
 //        visaBizCallTest();
@@ -119,8 +123,6 @@ public class MainActivity extends AppCompatActivity {
 //        TrainTicketCallTest();
 //        planeBizCallTest();
 
-
-
 //        final Gson gson = new Gson();
 //        String string = "{\"P\":{\"PEK\":[\"北京首都\",\"北京首都国际机场\",\"北京\",\"BJS\"],\"BKK\":[\"曼谷\",\"曼谷素万那普机场\",\"曼谷\",\"BKK\"],\"PVG\":[\"上海浦东\",\"上海浦东机场\",\"上海\",\"SHA\"],\"NKG\":[\"南京\",\"南京禄口机场\",\"南京\",\"NKG\"],\"KMG\":[\"昆明\",\"昆明长水国际机场\",\"昆明\",\"KMG\"],\"LZO\":[\"泸州\",\"泸州蓝田机场\",\"泸州\",\"LZO\"],\"SHA\":[\"上海虹桥\",\"上海虹桥机场\",\"上海\",\"SHA\"],\"HKT\":[\"普吉岛\",\"普吉机场\",\"普吉岛\",\"HKT\"],\"HGH\":[\"杭州\",\"杭州萧山机场\",\"杭州\",\"HGH\"],\"FOC\":[\"福州\",\"福州长乐机场\",\"福州\",\"FOC\"],\"XMN\":[\"厦门\",\"厦门高崎国际机场\",\"厦门\",\"XMN\"],\"ZAT\":[\"昭通\",\"昭通机场\",\"昭通\",\"ZAT\"],\"CAN\":[\"广州\",\"广州白云机场\",\"广州\",\"CAN\"],\"SZX\":[\"深圳\",\"深圳宝安机场\",\"深圳\",\"SZX\"],\"MFM\":[\"澳门\",\"澳门机场\",\"澳门\",\"MFM\"],\"HKG\":[\"香港\",\"香港赤鱲角国际机场\",\"香港\",\"HKG\"],\"ICN\":[\"首尔(仁川)\",\"首尔仁川机场\",\"首尔\",\"SEL\"],\"GMP\":[\"首尔(金浦)\",\"首尔金浦国际机场\",\"首尔\",\"SEL\"],\"SWA\":[\"揭阳\",\"揭阳潮汕国际机场\",\"揭阳\\/潮州\\/汕头\",\"SWA\"],\"KUL\":[\"吉隆坡\",\"吉隆坡机场\",\"吉隆坡\",\"KUL\"],\"TPE\":[\"台北(桃园)\",\"台北桃园国际机场\",\"台北\",\"TPE\"],\"SIN\":[\"新加坡\",\"樟宜机场\",\"新加坡\",\"SIN\"]},\"A\":{\"HU\":[\"海南航空\",\"海航\",\"1\"],\"TG\":[\"泰国国际航空公司\",\"泰国国航\",\"0\"],\"CA\":[\"国际航空\",\"国航\",\"1\"],\"MU\":[\"东方航空\",\"东航\",\"1\"],\"FM\":[\"上海航空\",\"上航\",\"1\"],\"PG\":[\"\",\"\",\"0\"],\"MF\":[\"厦门航空\",\"厦航\",\"1\"],\"CZ\":[\"南方航空\",\"南航\",\"1\"],\"NX\":[\"澳门航空\",\"澳门航空\",\"0\"],\"HX\":[\"香港航空\",\"香港航空\",\"0\"],\"CX\":[\"国泰航空公司\",\"国泰\",\"0\"],\"KE\":[\"大韩航空公司\",\"大韩航空\",\"0\"],\"ZH\":[\"深圳航空\",\"深航\",\"0\"],\"OZ\":[\"韩亚航空\",\"韩亚\",\"0\"],\"MH\":[\"马来西亚航空公司\",\"马航\",\"0\"],\"BR\":[\"台湾长荣航空公司\",\"长荣航空\",\"0\"],\"SQ\":[\"新加坡航空公司\",\"新加坡航空\",\"0\"],\"KQ\":[\"肯尼亚航空\",\"肯尼亚航空\",\"0\"]}}";
 //        final Type type = new TypeToken<Map<String, Object>>() {}.getType();
@@ -129,10 +131,37 @@ public class MainActivity extends AppCompatActivity {
 //            System.out.println(entry.getKey() + " : " + entry.getValue());
 //        }
 
-
+        testOkHttpLogin();
     }
 
+    /**
+     * 请求框架换为okhttp
+     */
+    private void testOkHttpLogin() {
+        LogUtil.e(TAG, "-----------testOkHttpLogin-----------");
+        LoginBiz biz = new LoginBiz();
+        LoginRequest request = new LoginRequest("15210656911", "admin123");
+        biz.login(request, new BizGenericCallback<LoginResponse>() {
+            @Override
+            public void onCompletion(GenericResponseModel<LoginResponse> model) {
+                LoginResponse response = model.body;
+                LogUtil.e(TAG, response);
+//                Toast.makeText(getApplicationContext(), "请求成功", Toast.LENGTH_SHORT).show(); //子线程不能弹窗
+                LogUtil.e(TAG, "name = " + Thread.currentThread().getName() + ", id = " + Thread.currentThread().getId());
+            }
 
+            @Override
+            public void onError(FetchError error) {
+                LogUtil.e(TAG, error);
+                LogUtil.e(TAG, "name = " + Thread.currentThread().getName() + ", id = " + Thread.currentThread().getId());
+                if (error.localReason != null){
+//                    Toast.makeText(getApplicationContext(), error.localReason, Toast.LENGTH_SHORT).show(); //子线程不能弹窗
+                }else{
+//                    Toast.makeText(getApplicationContext(), "请求失败，请重试", Toast.LENGTH_SHORT).show(); //子线程不能弹窗
+                }
+            }
+        });
+    }
 
     public void  carBizCallTest(){
         carBiz = new CarRentActionBiz(getApplicationContext(), handler);
@@ -786,4 +815,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btn_again:
+                testOkHttpLogin();
+                break;
+        }
+    }
 }

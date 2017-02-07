@@ -1,7 +1,10 @@
 package com.yingwei.net.netcallback;
 
+import android.nfc.Tag;
+
 import com.jhhy.cuiweitourism.net.models.FetchModel.BasicFetchModel;
 import com.jhhy.cuiweitourism.net.utils.Consts;
+import com.jhhy.cuiweitourism.net.utils.LogUtil;
 
 import java.io.IOException;
 
@@ -18,33 +21,23 @@ import okhttp3.Response;
  */
 public class OKHttpUtil {
 
+    private static final String TAG = "OKHttpUtil";
+
     private static final MediaType JSON = MediaType.parse("application/json;charset=utf-8");
 
     private static final OkHttpClient client = new OkHttpClient();
 
     public static void post(BasicFetchModel json, Callback callback) {
+
+        LogUtil.e(TAG, "发送数据：" + json.toBizJsonString());
+
         RequestBody body = RequestBody.create(JSON, json.toBizJsonString());
         Request request = new Request.Builder()
                 .url(Consts.SERVER_URL)
+//                .addHeader("Content-Type", "application/json;charset=utf-8")
                 .post(body)
                 .build();
 
         client.newCall(request).enqueue(callback);
-//                (new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//
-//            }
-//        });
-//        if (response.isSuccessful()) {
-//            return response.body().string();
-//        } else {
-//            throw new IOException("Unexpected code " + response);
-//        }
     }
 }

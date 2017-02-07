@@ -1,12 +1,23 @@
 package com.yingwei.net.biz;
 
 import com.google.gson.Gson;
+import com.jhhy.cuiweitourism.net.biz.BasicActionBiz;
 import com.jhhy.cuiweitourism.net.models.FetchModel.BasicFetchModel;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.BasicResponseModel;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchError;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.FetchResponseModel;
+import com.jhhy.cuiweitourism.net.models.ResponseModel.GenericResponseModel;
+import com.jhhy.cuiweitourism.net.netcallback.BizCallback;
+import com.jhhy.cuiweitourism.net.netcallback.BizGenericCallback;
+import com.jhhy.cuiweitourism.net.netcallback.FetchGenericResponse;
+import com.jhhy.cuiweitourism.net.netcallback.FetchResponse;
 import com.yingwei.net.model.RequestModel.LoginRequest;
 import com.yingwei.net.model.ResponseModel.LoginResponse;
 import com.yingwei.net.netcallback.OKHttpUtil;
+import com.yingwei.net.netcallback.OkFetchCallback;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -15,32 +26,30 @@ import okhttp3.Response;
 /**
  * Created by jiahe008 on 2017/2/6.
  */
-public class LoginBiz {
+public class LoginBiz extends BasicActionBiz {
 
 //    {"head":{"code":"User_login"},"field":{"mobile":"15210656911","password":"admin123"}}
 
-    private void login(BasicFetchModel fetch, LoginResponse response) {
+    public void login(LoginRequest fetch, BizGenericCallback<LoginResponse> callback) {
 
         fetch.code = "User_login";
 
-        OKHttpUtil.post(fetch, new Callback() {
+        FetchGenericResponse<LoginResponse> fetchResponse = new FetchGenericResponse<LoginResponse>(callback) {
             @Override
-            public void onFailure(Call call, IOException e) {
-                
+            public void onCompletion(FetchResponseModel response) {
+                GenericResponseModel<LoginResponse> returnModel = new GenericResponseModel<>(
+                        response.head, parseJsonToObject(response, LoginResponse.class));
+                this.bizCallback.onCompletion(returnModel);
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()){
-                    LoginResponse loginResponse = new Gson().fromJson(response.body().charStream(), LoginResponse.class);
-
-                }else{
-//                    throw new IOException("Unexpected code " + response);
-                    IOException e = new IOException(response.message());
-                    onFailure(call, e);
-                }
+            public void onError(FetchError error) {
+                this.bizCallback.onError(error);
             }
-        });
+        };
+
+        OKHttpUtil.post(fetch, new OkFetchCallback<>(fetchResponse));
+
     }
 
 }

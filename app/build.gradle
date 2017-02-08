@@ -6,10 +6,12 @@ android {
 
     defaultConfig {
         applicationId "com.jhhy.cuiweitourism.net"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -31,4 +33,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
+    compile 'io.realm:realm-android:0.87.5'
+    releaseCompile  'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    debugCompile  'com.squareup.leakcanary:leakcanary-android:1.5'
 }

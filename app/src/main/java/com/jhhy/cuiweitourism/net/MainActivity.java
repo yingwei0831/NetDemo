@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.google.gson.reflect.TypeToken;
 import com.jhhy.cuiweitourism.net.biz.ActivityActionBiz;
 import com.jhhy.cuiweitourism.net.biz.CarRentActionBiz;
@@ -81,6 +82,7 @@ import com.jhhy.cuiweitourism.net.netcallback.BizGenericCallback;
 import com.jhhy.cuiweitourism.net.utils.Consts;
 import com.jhhy.cuiweitourism.net.utils.LogUtil;
 import com.yingwei.net.biz.LoginBiz;
+import com.yingwei.net.model.Country;
 import com.yingwei.net.model.RequestModel.LoginRequest;
 import com.yingwei.net.model.ResponseModel.LoginResponse;
 
@@ -88,6 +90,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static String TAG = "XXXX";
@@ -111,6 +117,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//      创建RealmObject
+        Realm myRealm = Realm.getInstance(getApplicationContext()); //轻量级数据库
+
+        //创建事务
+//        myRealm.beginTransaction();
+//        //Create an object
+//        Country c = myRealm.createObject(Country.class);
+//        //Set its fields
+//        c.setName("Norway");
+//        c.setPopulation(5165800);
+//        c.setCode("NO");
+//
+//        //Create an object
+//        Country c2 = new Country();
+//        //Set its fields
+//        c2.setName("Chinese");
+//        c2.setPopulation(1500000000);
+//        c2.setCode("CN");
+//        Country copyC2 = myRealm.copyToRealm(c2);
+//        myRealm.commitTransaction();
+
+        //查询
+        // RealmResults<Country> cs = myRealm.where(Country.class).findAll();
+        // 如果你想让查询结果按照某个顺序来，你可以使用findAllSorted方法，它有一个String类型的参数和一个boolean类型的参数，
+        // 其中，String指定用来排序的字段，boolean指定了排序方式，
+        //Sort by name, 降序排列
+        RealmResults<Country> cs = myRealm.where(Country.class).findAllSorted("name", Sort.DESCENDING);
+
+        for (Country cc: cs){
+            LogUtil.e(TAG, "cc: " + cc);
+        }
+
         findViewById(R.id.btn_again).setOnClickListener(this);
 //        carBizCallTest();
 //        homePageCallTest();
@@ -132,10 +170,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        }
 
         testOkHttpLogin();
+        BitmapTransformation f;
     }
 
     /**
-     * 请求框架换为okhttp
+     * 网络请求框架换为okhttp
      */
     private void testOkHttpLogin() {
         LogUtil.e(TAG, "-----------testOkHttpLogin-----------");

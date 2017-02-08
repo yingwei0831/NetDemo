@@ -1,4 +1,4 @@
-package com.yingwei.net.parser;
+package com.yingwei.net.parser.callback;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -86,7 +86,7 @@ public class OkParserCallback<T> implements Callback {
 
         public UIHandler(OkParserCallback<T> callback) {
             super(Looper.getMainLooper()); //主线程的Looper
-            mWeakReference = new WeakReference(callback);
+            mWeakReference = new WeakReference<>(callback);
         }
 
         @Override
@@ -115,7 +115,7 @@ public class OkParserCallback<T> implements Callback {
         }
     }
 
-    private Handler mHandler = new UIHandler(this);
+    private Handler mHandler = new UIHandler<>(this);
 
 
 
